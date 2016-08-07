@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="242dp"
+        android:layout_height="104dp"
+        android:id="@+id/titre"
+        android:layout_gravity="center|top"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:typeface="serif"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_center"
+        android:layout_gravity="center"
+        android:textSize="30sp"/>
+
+</LinearLayout>
+
+    <ListView
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:id="@+id/left_drawer"
+        android:background="@color/colorPrimary"/>
+
+</android.support.v4.widget.DrawerLayout>

@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Quran app</string>
+    <string name="drawer_open" >open</string>
+    <string name="drawer_close" >close</string>
+    <string name="titre">المحفوظ من </string>
+</resources>
