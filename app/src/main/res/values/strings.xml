@@ -3,4 +3,5 @@
     <string name="drawer_open" >open</string>
     <string name="drawer_close" >close</string>
     <string name="titre">المحفوظ من </string>
+    <string name="empty_db">المحتوى فارغ</string>
 </resources>

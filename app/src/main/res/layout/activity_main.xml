@@ -23,10 +23,26 @@
         android:textSize="25sp"
         android:typeface="serif"/>
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/db_content"
+        android:layout_gravity="center"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:typeface="serif"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/db_content2"
         android:layout_gravity="center"
         android:textSize="18sp"
         android:textColor="@android:color/black"

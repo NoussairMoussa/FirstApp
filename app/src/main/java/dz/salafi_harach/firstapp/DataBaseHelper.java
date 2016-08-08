@@ -77,7 +77,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 null,                                     // don't filter by row groups
                 null                                 // The sort order
         );
-        //db.close();
         return c;
     }
 
@@ -88,7 +87,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(WaelContract.Moutoun_tab.COLUMN_MATN_NAME, matn_name);
 
-        db.insert(WaelContract.Quran_tab.TABLE_NAME, null, values);
+        db.insert(WaelContract.Moutoun_tab.TABLE_NAME, null, values);
 
         db.close();
 
@@ -103,7 +102,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor c = null;
 
         String[] projection = {
-                WaelContract.Quran_tab.COLUMN_ID_NAME,
+                WaelContract.Moutoun_tab.COLUMN_ID_NAME,
                 WaelContract.Moutoun_tab.COLUMN_MATN_NAME
         };
 
@@ -116,7 +115,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 null,                                     // don't filter by row groups
                 null                                 // The sort order
         );
-        db.close();
         return c;
     }
 }

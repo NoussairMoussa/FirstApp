@@ -1,7 +1,6 @@
 package dz.salafi_harach.firstapp;
 
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -29,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList.setAdapter(new My_addapter(this,
                 R.layout.row, mPlanetTitles));
 
-        mDrawerLayout.setScrimColor(Color.TRANSPARENT);
-
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -42,26 +39,52 @@ public class MainActivity extends AppCompatActivity {
         //create the dataBase
         DataBaseHelper myDb = new DataBaseHelper(getBaseContext());
 
+        //myDb.addMatn("الأربعين النووية");
+        //myDb.addQuran("ال عمران", 1,  22);
+
         TextView db_content = (TextView) findViewById(R.id.db_content);
+        TextView db_content2 = (TextView) findViewById(R.id.db_content2);
 
         Cursor cursor = myDb.getAllQuran();
+        Cursor cursor2 = myDb.getAllMatn();
         String QuranFromDb = "";
+        String MoutounFromDb = "";
+
+        if(cursor == null || cursor2 == null)
+            return;
 
         cursor.moveToFirst();
 
         if (cursor.getCount() > 0)
         {
             do {
-                QuranFromDb += cursor.getString(0) + ": " + cursor.getString(1) + "\n";
+                QuranFromDb += cursor.getString(0) + ": " + cursor.getString(1) + " "
+                        + cursor.getString(2) + "الى" + cursor.getString(3) + "\n";
             } while (cursor.moveToNext());
         }
 
+        cursor2.moveToFirst();
+
+        if (cursor2.getCount() > 0)
+        {
+            do {
+                MoutounFromDb += cursor2.getString(0) + ": " + cursor2.getString(1) + "\n";
+            } while (cursor2.moveToNext());
+        }
+
         if(QuranFromDb == "")
-            db_content.setText("You haven't enything" + "\n");
+            db_content.setText(getString(R.string.empty_db) + "\n");
         else
             db_content.setText(QuranFromDb + "\n");
 
+        if(MoutounFromDb == "")
+            db_content2.setText(R.string.empty_db + "\n");
+
+        else
+            db_content2.setText(MoutounFromDb + "\n");
+
         cursor.close();
+        cursor2.close();
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
