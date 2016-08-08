@@ -1,5 +1,6 @@
 package dz.salafi_harach.firstapp;
 
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -19,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //setTitle("kalem");
 
         mPlanetTitles = getResources().getStringArray(R.array.array_adapter);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -31,9 +31,37 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerLayout.setScrimColor(Color.TRANSPARENT);
 
-
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //create the dataBase
+        DataBaseHelper myDb = new DataBaseHelper(getBaseContext());
+
+        TextView db_content = (TextView) findViewById(R.id.db_content);
+
+        Cursor cursor = myDb.getAllQuran();
+        String QuranFromDb = "";
+
+        cursor.moveToFirst();
+
+        if (cursor.getCount() > 0)
+        {
+            do {
+                QuranFromDb += cursor.getString(0) + ": " + cursor.getString(1) + "\n";
+            } while (cursor.moveToNext());
+        }
+
+        if(QuranFromDb == "")
+            db_content.setText("You haven't enything" + "\n");
+        else
+            db_content.setText(QuranFromDb + "\n");
+
+        cursor.close();
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -80,4 +108,5 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(title);
     }
 }
+
 
