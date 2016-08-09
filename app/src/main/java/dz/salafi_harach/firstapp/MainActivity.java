@@ -1,6 +1,7 @@
 package dz.salafi_harach.firstapp;
 
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -8,16 +9,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
+    private Cursor Quran;
+    private GridView gridview;
+    private ListView listView;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -61,9 +68,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        ///--------------------------------///
-
-        GridView gridview = (GridView) findViewById(R.id.gridview);
+        gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapter(this));
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -101,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 //-------------------------
-/*
     @Override
     protected void onStart()
     {
@@ -112,17 +116,10 @@ public class MainActivity extends AppCompatActivity {
         //myDb.addMatn("الأربعين النووية");
         //myDb.addQuran("ال عمران", 1,  22);
 
-        TextView db_content = (TextView) findViewById(R.id.db_content);
-        TextView db_content2 = (TextView) findViewById(R.id.db_content2);
-
-        Cursor cursor = myDb.getAllQuran();
-        Cursor cursor2 = myDb.getAllMatn();
+        Quran = myDb.getAllQuran();
         String QuranFromDb = "";
         String MoutounFromDb = "";
-
-        if(cursor == null || cursor2 == null)
-            return;
-
+/*
         cursor.moveToFirst();
 
         if (cursor.getCount() > 0)
@@ -155,8 +152,9 @@ public class MainActivity extends AppCompatActivity {
 
         cursor.close();
         cursor2.close();
+        */
     }
-*/
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener
     {
         @Override
@@ -171,27 +169,54 @@ public class MainActivity extends AppCompatActivity {
      */
     private void selectItem(int position)
     {
+        TextView title = (TextView) findViewById(R.id.titre);
+        title.setText(getString(R.string.titre) + " " + mPlanetTitles[position]);
+        // Highlight the selected item, update the title, and close the drawer
+        mDrawerList.setItemChecked(position, true);
+        setTitle(mPlanetTitles[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+        ArrayList<String> listQuran = new ArrayList<String>();
+
         if(position == 0)
         {
             return_to_accueil();
             return;
         }
+        else if(position == 1)
+        {
+            Quran.moveToFirst();
 
-        TextView title = (TextView) findViewById(R.id.titre);
-        title.setText(getString(R.string.titre) + " " + mPlanetTitles[position]);
-
-        // Highlight the selected item, update the title, and close the drawer
-        mDrawerList.setItemChecked(position, true);
-        setTitle(mPlanetTitles[position]);
-        //mDrawerLayout.closeDrawer(mDrawerList);
+            if (Quran.getCount() > 0)
+            {
+                do {
+                    String QuranFromDb = Quran.getString(0) + ": " + Quran.getString(1) + " "
+                            + Quran.getString(2) + " الى " + Quran.getString(3) + "\n";
+                    listQuran.add(QuranFromDb);
+                } while (Quran.moveToNext());
+            }
+            listView = (ListView) findViewById(R.id.contentBD);
+            listView.setAdapter(
+                    new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listQuran)
+            );
+            gridview.setAdapter(null);
+        }
+        else if(position == 2)
+        {
+            listQuran.add("حفظ المتون خاصية ستضاف لاحقا");
+            listView.setAdapter(
+                    new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listQuran)
+            );
+            gridview.setAdapter(null);
+        }
     }
 
     private void return_to_accueil()
     {
         TextView title = (TextView) findViewById(R.id.titre);
         title.setText(" ");
-        setTitle(R.string.app_name);
-        //mDrawerLayout.openDrawer(mDrawerList);
+        gridview.setAdapter(new ImageAdapter(this));
+        listView.setAdapter(null);
+        getSupportActionBar().setTitle(R.string.app_name);
     }
 
     @Override
