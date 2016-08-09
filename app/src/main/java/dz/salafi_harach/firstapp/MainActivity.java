@@ -1,17 +1,17 @@
 package dz.salafi_harach.firstapp;
 
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private String[] mPlanetTitles;
@@ -24,15 +24,6 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        //setSupportActionBar(toolbar);
-        //toolbar.setLogo(R.drawable.ic_drawer);
-
-        //getSupportActionBar().setIcon(R.drawable.ic_drawer);
-        //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setHomeButtonEnabled(true);
 
         mPlanetTitles = getResources().getStringArray(R.array.array_adapter);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -69,6 +60,19 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        ///--------------------------------///
+
+        GridView gridview = (GridView) findViewById(R.id.gridview);
+        gridview.setAdapter(new ImageAdapter(this));
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Toast.makeText(getBaseContext(), "" + position,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -97,9 +101,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 //-------------------------
-
+/*
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
         //create the dataBase
         DataBaseHelper myDb = new DataBaseHelper(getBaseContext());
@@ -151,8 +156,9 @@ public class MainActivity extends AppCompatActivity {
         cursor.close();
         cursor2.close();
     }
-
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+*/
+    private class DrawerItemClickListener implements ListView.OnItemClickListener
+    {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id)
         {
