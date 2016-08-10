@@ -7,129 +7,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_below="@+id/tool_bar">
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/titre"
         android:layout_gravity="center|top"
         android:gravity="center"
         android:textSize="20sp"
-        android:typeface="serif"/>
+        android:typeface="serif"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"/>
 
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/intro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:typeface="serif"
+        android:layout_margin="10dp"
+        android:padding="10dp"/>
 
-            <!--
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/db_content"
-                android:layout_gravity="center"
-                android:textSize="18sp"
-                android:textColor="color/black"
-                android:typeface="serif"/>
-
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="5"
-            android:rowCount="6"
-            android:orientation="horizontal"
-            android:layout_gravity="top"
-            android:foregroundGravity="center"
-            android:layout_marginBottom="10dp">
-
-            <View
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="#c0c0c0"
-                android:layout_margin="10dp"/>
-
-            <View
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="#c0c0c0"
-                android:layout_margin="10dp"/>
-
-            <View
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="#c0c0c0"
-                android:layout_margin="10dp"/>
-
-            <View
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="#c0c0c0"
-                android:layout_margin="10dp"/>
-
-            <View
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="#c0c0c0"
-                android:layout_margin="10dp"/>
-
-            <View
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="#c0c0c0"
-                android:layout_margin="10dp"/>
-
-            <View
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="#c0c0c0"
-                android:layout_margin="10dp"/>
-
-            <View
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="@drawable/ic_drawer"
-                android:layout_margin="10dp"
-                />
-
-            <View
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="#c0c0c0"
-                android:layout_margin="10dp"/>
-
-        </GridLayout>
-        -->
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/gridview"
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:columnWidth="70dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="21dp"
-        android:stretchMode="columnWidth"
-        android:gravity="center"
-        android:layout_margin="10dp"/>
-<!--
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/colorPrimary"
-        android:layout_marginTop="10dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/db_content2"
-        android:layout_gravity="center"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-        android:typeface="serif"/>
+        android:id="@+id/contentBD"
+        android:padding="10dp"
+        android:clickable="true"/>
 
-    -->
+
 </LinearLayout>
+
     <ListView
         android:layout_width="200dp"
         android:layout_height="match_parent"

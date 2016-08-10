@@ -2,7 +2,7 @@
 <resources>
     <string-array name="array_adapter">
         <item>الرئيسية</item>
-        <item>القران</item>
-        <item>المتون</item>
+        <item>القــرآن الكـريـم</item>
+        <item>المــتون العلميــــة</item>
     </string-array>
 </resources>
