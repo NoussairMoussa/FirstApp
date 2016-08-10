@@ -20,6 +20,7 @@ public final class WaelContract
         public static final String COLUMN_SOURA_NAME = "Soura_name";
         public static final String COLUMN_AYA_DEB = "Aya_deb";
         public static final String COLUMN_AYA_FIN = "Aya_fin";
+        public static final String COLUMN_DATE = "Date_ajout";
     }
 
     public static abstract class Moutoun_tab
@@ -27,6 +28,7 @@ public final class WaelContract
         public static final String TABLE_NAME = "Moutoun_tab";
         public static final String COLUMN_ID_NAME = "Id_matn";
         public static final String COLUMN_MATN_NAME = "Matn_name";
+        public static final String COLUMN_DATE = "Date_ajout";
     }
 
 }

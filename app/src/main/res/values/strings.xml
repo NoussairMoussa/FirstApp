@@ -2,6 +2,17 @@
     <string name="app_name">Quran app</string>
     <string name="drawer_open" >open</string>
     <string name="drawer_close" >close</string>
-    <string name="titre">المحفوظ من </string>
     <string name="empty_db">المحتوى فارغ</string>
+    <string name="add_quran">أضف قرآن</string>
+    <string name="intro_txt" >
+        الــــسلام عــليـــكم
+        \n
+        هذا التطــبيق هو لمساعدتك على حفظ و مراجعة القرآن الكــريــم لإضافة حفظ جـديد أنقر على الزر فوق.
+        \n
+        التطــبيـــق سيســـــاعدك لمتابعة حفظـــــك و مراجعـتــــــك
+        \n \n
+        سيتــــم إضـــافة خصـــائص أخرى لاحـــقا انشـــاء الله
+
+
+    </string>
 </resources>
