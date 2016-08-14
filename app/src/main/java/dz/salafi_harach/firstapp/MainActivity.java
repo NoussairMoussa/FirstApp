@@ -1,5 +1,6 @@
 package dz.salafi_harach.firstapp;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -99,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
         // Handle your other action bar items...
         if(item.getItemId() == R.id.addQuran)
         {
-            Toast.makeText(this, "Oops !", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, Add_quran.class);
+            intent.putExtra("kalem", "mouss");
+            startActivity(intent);
             return true;
         }
 
