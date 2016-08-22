@@ -16,6 +16,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/text_array_addapter"
         android:textSize="18sp"
-        android:padding="15dp"/>
+        android:textColor="@android:color/white"
+        android:padding="15dp"
+        android:textDirection="rtl"/>
 
 </LinearLayout>

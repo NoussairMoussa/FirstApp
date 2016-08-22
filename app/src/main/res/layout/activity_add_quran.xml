@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+<RelativeLayout
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -19,13 +22,15 @@
         android:layout_marginTop="84dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/white"
+        android:padding="10dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/title_add_quran_activity"
-        android:text="title_quran_add"
+        android:text="إضافة سورة جديدة"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -47,41 +52,65 @@
 
     <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="right"
         android:id="@+id/radioGroup"
         android:layout_below="@+id/small_text_for_radio_group"
         android:layout_marginTop="7dp"
         android:layoutDirection="rtl"
         tools:targetApi="jelly_bean_mr1"
-        android:forceHasOverlappingRendering="true"
-        >
+        android:forceHasOverlappingRendering="true">
+
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="كاملـــة"
-                android:onClick="add_by_ayas_disabled"
+                android:onClick="all_sura"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="0.33"/>
+                android:layout_weight="0.33"
+                android:id="@+id/all_btn"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="بعدد الصفحات"
+                android:onClick="add_by_page_enabled"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0.33"
+                android:id="@+id/by_nbrOfPages"/>
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="بالأرباع"
-                android:onClick="add_by_ayas_disabled"
+                android:onClick="add_by_arbaa_enabled"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="0.33"/>
+                android:layout_weight="0.33"
+                android:labelFor="@id/radioGroup"
+                android:id="@+id/by_nbrOfArbaa"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="بالأثمان"
+            android:onClick="add_by_athman_enabled"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.33"
+            android:labelFor="@id/radioGroup"
+            android:id="@+id/by_nbrOfAthman"/>
+
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="بالآيات"
                 android:onClick="add_by_ayas_enabled"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="0.33"/>
+                android:layout_weight="0.33"
+                android:labelFor="@id/radioGroup"
+                android:id="@+id/by_ayat"/>
     </RadioGroup>
 
     <LinearLayout
@@ -89,21 +118,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="0.99"
+        android:paddingRight="15dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/radioGroup"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/add_by_ayat_layout"
-        android:gravity="right">
+        android:gravity="end">
 
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:enabled="false"
-            android:ems="10"
             android:id="@+id/fin_aya"
-            android:layout_weight="0.3"/>
+            android:layout_weight="0.3"
+            android:textDirection="rtl"/>
 
         <TextView
             android:layout_width="0dp"
@@ -119,7 +149,8 @@
             android:enabled="false"
             android:ems="10"
             android:id="@+id/deb_aya"
-            android:layout_weight="0.3"/>
+            android:layout_weight="0.3"
+            android:textDirection="rtl"/>
 
         <TextView
             android:layout_width="0dp"
@@ -133,8 +164,75 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:orientation="horizontal"
-        android:layout_below="@id/add_by_ayat_layout"
+        android:weightSum="0.99"
+        android:id="@+id/add_by_arbaa_layout"
+        android:layout_below="@+id/add_by_ayat_layout"
+        android:layout_marginTop="20dp"
+        android:gravity="end">
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:inputType="number"
+            android:textDirection="rtl"
+            android:enabled="false"
+            android:layout_weight="0.3"
+            android:id="@+id/arbaa_num"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nbrArbaa_textView"
+            android:layout_margin="10dp"
+            android:layout_weight="0.19"
+            android:id="@+id/arbaa_num_textView"/>
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="0.3"
+            android:inputType="number"
+            android:textDirection="rtl"
+            android:enabled="false"
+            android:id="@+id/page_num"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="عدد الصفحات"
+            android:layout_weight="0.19"
+            android:layout_margin="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/add_by_arbaa_layout"
+        android:layout_marginTop="20dp"
+        android:gravity="end"
+        android:id="@+id/add_by_athman_layout">
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:inputType="number"
+        android:textDirection="rtl"
+        android:enabled="false"
+        android:id="@+id/athman_num"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="عدد الأثمان"
+        android:layout_margin="10dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/add_by_athman_layout"
         android:layout_marginTop="10dp"
         android:gravity="center">
 
@@ -142,14 +240,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="إلغاء"/>
+            android:text="إلغاء"
+            android:clickable="true"
+            android:enabled="true"
+            android:onClick="annuler_btn" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="حفـظ"/>
+            android:text="حفـظ"
+            android:id="@+id/hifd_btn"
+            android:onClick="add_quran"
+            android:clickable="false"
+            android:enabled="false"/>
     </LinearLayout>
 
 </RelativeLayout>
 
+</ScrollView>

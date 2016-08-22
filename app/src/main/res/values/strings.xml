@@ -15,4 +15,6 @@
 
 
     </string>
+    <string name="setting_btn">تعديـــل</string>
+    <string name="nbrArbaa_textView">عدد الأربـــاع</string>
 </resources>

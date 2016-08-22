@@ -10,4 +10,8 @@
         app:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_menu_add"/>
 
+    <item
+        android:title="@string/setting_btn"
+        app:showAsAction="never"/>
+
 </menu>
