@@ -129,7 +129,6 @@ public class Sura_mahfouda {
             else if(nbrOfAyat > 10)
                 s += nbrOfAyat + " آيــــة ";
         }
-
         return s;
     }
 }
