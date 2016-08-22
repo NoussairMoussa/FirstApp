@@ -16,6 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="dz.salafi_harach.firstapp.Add_quran"/>
     </application>
 
 </manifest>

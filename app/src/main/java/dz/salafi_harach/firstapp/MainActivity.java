@@ -1,7 +1,7 @@
 package dz.salafi_harach.firstapp;
 
+import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,13 +13,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Cursor Quran;
     private DataBaseHelper myDb;
     private ActionBarDrawerToggle mDrawerToggle;
     @Override
@@ -99,7 +98,9 @@ public class MainActivity extends AppCompatActivity {
         // Handle your other action bar items...
         if(item.getItemId() == R.id.addQuran)
         {
-            Toast.makeText(this, "Oops !", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, Add_quran.class);
+            intent.putExtra("kalem", "mouss");
+            startActivity(intent);
             return true;
         }
 
@@ -113,9 +114,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         myDb = new DataBaseHelper(this);
-
-       // myDb.addMatn("الأربعين النووية");
-       myDb.addQuran("Al imran", 1,  22);
 
         return_to_accueil();
     }
@@ -135,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     private void selectItem(int position)
     {
         myDb = new DataBaseHelper(getBaseContext());
-        Quran = myDb.getAllQuran();
+        AbstractCollection<Sura_mahfouda> listQuran;
 
         TextView title  = (TextView) findViewById(R.id.titre);
         TextView intro = (TextView) findViewById(R.id.intro);
@@ -148,7 +146,8 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList.setItemChecked(position, true);
         setTitle(mPlanetTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
-        ArrayList<String> listQuran = new ArrayList<>();
+
+        ArrayList<String> listQuranForAdapter = new ArrayList<>();
 
         if(position == 0)
         {
@@ -157,18 +156,14 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(position == 1)
         {
-            Quran.moveToFirst();
-
-            if (Quran.getCount() > 0)
+            listQuran = myDb.getAllQuran();
+            for(Sura_mahfouda temp : listQuran)
             {
-                do {
-                    String QuranFromDb = Quran.getString(4) + " : " + Quran.getString(1) + " "
-                            + Quran.getString(2) + " الى " + Quran.getString(3) + "\n";
-                    listQuran.add(QuranFromDb);
-                } while (Quran.moveToNext());
+                listQuranForAdapter.add(temp.toString());
             }
+
             contentDB.setAdapter(
-                    new ArrayAdapter<>(this, R.layout.row_of_quran_list, listQuran)
+                    new ArrayAdapter<>(this, R.layout.row_of_quran_list, listQuranForAdapter)
             );
 
             intro.setText("");
@@ -176,14 +171,26 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(position == 2)
         {
-            listQuran.add("حفظ المتون خاصية ستضاف لاحقا");
+            listQuran = myDb.getAllSuraMahfouda();
+            for(Sura_mahfouda temp : listQuran)
+            {
+                String suraRow = temp.toString();
+                listQuranForAdapter.add(suraRow);
+            }
+
             contentDB.setAdapter(
-                    new ArrayAdapter<>(this, R.layout.row_of_quran_list, listQuran)
+                    new ArrayAdapter<>(this, R.layout.row_of_quran_list, listQuranForAdapter)
             );
+
             intro.setText("");
             title.setText(mPlanetTitles[position]);
         }
-        Quran.close();
+        else if(position == 3)
+        {
+            return_to_accueil();
+            return;
+        }
+        //Quran.close();
         myDb.close();
     }
 

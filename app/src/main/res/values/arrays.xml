@@ -3,6 +3,7 @@
     <string-array name="array_adapter">
         <item>الرئيسية</item>
         <item>القــرآن الكـريـم</item>
-        <item>المــتون العلميــــة</item>
+        <item>السور المحفوظــة</item>
+        <item>حول التطبيق</item>
     </string-array>
 </resources>
