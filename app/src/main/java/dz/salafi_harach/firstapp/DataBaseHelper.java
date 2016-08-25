@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
@@ -247,7 +246,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return string;
     }
 
-    public AbstractCollection<Sura_mahfouda> getAllQuran()
+    public ArrayList<Sura_mahfouda> getAllQuran()
     {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -265,7 +264,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         c.moveToFirst();
         Sura s;
         Sura_mahfouda s_m;
-        AbstractCollection<Sura_mahfouda> listQuran = new ArrayList<>();
+        ArrayList<Sura_mahfouda> listQuran = new ArrayList<>();
         if (c.getCount() > 0)
         {
             do
@@ -297,7 +296,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return listQuran;
     }
 
-    public AbstractCollection<Sura_mahfouda> getAllSuraMahfouda()
+    public ArrayList<Sura_mahfouda> getAllSuraMahfouda()
     {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -315,7 +314,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         c.moveToFirst();
         Sura s;
         Sura_mahfouda s_m;
-        AbstractCollection<Sura_mahfouda> listQuran = new ArrayList<>();
+        ArrayList<Sura_mahfouda> listQuran = new ArrayList<>();
         if (c.getCount() > 0)
         {
             do

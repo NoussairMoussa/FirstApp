@@ -13,21 +13,22 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private DataBaseHelper myDb;
     private ActionBarDrawerToggle mDrawerToggle;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-         String[] mPlanetTitles  = getResources().getStringArray(R.array.array_adapter);
+         String[] mPlanetTitles = getResources().getStringArray(R.array.array_adapter);
          DrawerLayout mDrawerLayout  = (DrawerLayout) findViewById(R.id.drawer_layout);
          ListView mDrawerList= (ListView) findViewById(R.id.left_drawer);
 
@@ -99,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.addQuran)
         {
             Intent intent = new Intent(this, Add_quran.class);
-            intent.putExtra("kalem", "mouss");
             startActivity(intent);
             return true;
         }
@@ -112,9 +112,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart()
     {
         super.onStart();
-
         myDb = new DataBaseHelper(this);
-
         return_to_accueil();
     }
 
@@ -133,7 +131,8 @@ public class MainActivity extends AppCompatActivity {
     private void selectItem(int position)
     {
         myDb = new DataBaseHelper(getBaseContext());
-        AbstractCollection<Sura_mahfouda> listQuran;
+
+        ArrayList<Sura_mahfouda> listQuran;
 
         TextView title  = (TextView) findViewById(R.id.titre);
         TextView intro = (TextView) findViewById(R.id.intro);
@@ -157,13 +156,18 @@ public class MainActivity extends AppCompatActivity {
         else if(position == 1)
         {
             listQuran = myDb.getAllQuran();
+
+
             for(Sura_mahfouda temp : listQuran)
             {
                 listQuranForAdapter.add(temp.toString());
             }
 
-            contentDB.setAdapter(
+            /*contentDB.setAdapter(
                     new ArrayAdapter<>(this, R.layout.row_of_quran_list, listQuranForAdapter)
+            );*/
+            contentDB.setAdapter(
+                    new Adapter_list_sura(this, R.layout.row_of_quran_list, listQuranForAdapter, listQuran)
             );
 
             intro.setText("");
@@ -184,6 +188,20 @@ public class MainActivity extends AppCompatActivity {
 
             intro.setText("");
             title.setText(mPlanetTitles[position]);
+
+            contentDB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+                {
+                    Toast.makeText(getBaseContext(), "Rani", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView)
+                {
+                    Toast.makeText(getBaseContext(), "Rani", Toast.LENGTH_LONG).show();
+                }
+            });
         }
         else if(position == 3)
         {
@@ -213,5 +231,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-
-

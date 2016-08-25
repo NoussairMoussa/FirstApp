@@ -11,6 +11,7 @@ import android.widget.TextView;
 /**
  * Created by noussair on 07/08/16.
  */
+
 public class My_addapter extends ArrayAdapter<String> {
 
     public My_addapter(Context context, int r, String[] v)
