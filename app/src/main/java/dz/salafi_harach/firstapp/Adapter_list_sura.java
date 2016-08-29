@@ -7,13 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
-/**
- * Created by noussair on 25/08/16.
- */
 public class Adapter_list_sura extends ArrayAdapter<String> {
 
     private ArrayList<Sura_mahfouda> listQuran;
@@ -29,31 +28,66 @@ public class Adapter_list_sura extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent)
     {
         LayoutInflater l = LayoutInflater.from(getContext());
+        View v;
+        v = l.inflate(R.layout.row_of_quran_list, parent, false);
 
-        View v = l.inflate(R.layout.row_of_quran_list, parent, false);
+        LinearLayout linearLayout = (LinearLayout) v.findViewById(R.id.layout_of_list_sura);
 
         TextView textView = (TextView) v.findViewById(R.id.item_of_sura_list);
-
         textView.setText(listQuran.get(position).toString());
+        TextView soustextView = (TextView) v.findViewById(R.id.sous_item_of_sura_list);
+        soustextView.setText(listQuran.get(position).createRowOfSura());
+        soustextView.setTextColor(v.getResources().getColor(R.color.colorPrimary));
 
         if(listQuran.get(position).getIsMahfoud() == 0)
         {
             textView.setEnabled(false);
         }
-
-        if(listQuran.get(position).getIsMahfoud() == 1)
-        {
-            textView.setBackgroundColor(v.getResources().getColor(R.color.danger));
-            textView.setBackground(v.getResources().getDrawable(R.drawable.shape));
-        }
         else
-            textView.setBackgroundColor(v.getResources().getColor(R.color.safe));
+        {
+            Date today = new Date();
+            long defrence = today.getTime() - listQuran.get(position).getDateOfInsert();
 
+            long dayInTimeUnix = 60*60*24;
 
+            if(defrence < dayInTimeUnix * 2)
+            {
+                linearLayout.setBackgroundColor(v.getResources().getColor(R.color.safe));
+
+                textView.setTextColor(v.getResources().getColor(R.color.colorPrimary));
+
+                soustextView.setText(listQuran.get(position).createRowOfSura());
+                soustextView.setTextColor(v.getResources().getColor(R.color.colorPrimary));
+            }
+            else if(defrence < 10*dayInTimeUnix)
+            {
+                linearLayout.setBackgroundColor(v.getResources().getColor(R.color.warning));
+
+                textView.setTextColor(v.getResources().getColor(R.color.colorPrimaryDark));
+
+                soustextView.setText(listQuran.get(position).createRowOfSura());
+                soustextView.setTextColor(v.getResources().getColor(R.color.colorPrimary));
+            }
+            else
+            {
+                linearLayout.setBackgroundColor(v.getResources().getColor(R.color.danger));
+
+                textView.setTextColor(v.getResources().getColor(R.color.colorPrimaryDark));
+
+                soustextView.setText(listQuran.get(position).createRowOfSura());
+                soustextView.setTextColor(v.getResources().getColor(R.color.colorPrimary));
+            }
+        }
         return v;
     }
-
 }
+
+
+
+
+
+
+
 
 
 

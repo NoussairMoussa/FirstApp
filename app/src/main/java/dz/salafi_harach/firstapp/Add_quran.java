@@ -21,8 +21,10 @@ public class Add_quran extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_quran);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        //setSupportActionBar(myToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String[] list_surahs = getResources().getStringArray(R.array.list_of_surahs);
 
@@ -212,8 +214,17 @@ public class Add_quran extends AppCompatActivity {
         {
             EditText aya_deb_editText = (EditText) findViewById(R.id.deb_aya);
             EditText aya_fin_editText = (EditText) findViewById(R.id.fin_aya);
-            aya_deb = Integer.parseInt(aya_deb_editText.getText().toString());
-            aya_fin = Integer.parseInt(aya_fin_editText.getText().toString());
+
+            if(!aya_deb_editText.getText().toString().equals("") && !aya_fin_editText.getText().toString().equals(""))
+            {
+                aya_deb = Integer.parseInt(aya_deb_editText.getText().toString());
+                aya_fin = Integer.parseInt(aya_fin_editText.getText().toString());
+            }
+            else
+            {
+                aya_deb = 0;
+                aya_fin = 0;
+            }
 
             if((aya_deb == 0 ) || (aya_fin) == 0)
             {
@@ -236,7 +247,11 @@ public class Add_quran extends AppCompatActivity {
         else if(arbaa.isChecked())
         {
             EditText arbaa_editText = (EditText) findViewById(R.id.arbaa_num);
-            numOfArbaa = Integer.parseInt(arbaa_editText.getText().toString());
+
+            if(!arbaa_editText.getText().toString().equals(""))
+                numOfArbaa = Integer.parseInt(arbaa_editText.getText().toString());
+            else
+                numOfArbaa = 0;
 
             if(numOfArbaa == 0)
             {
@@ -258,7 +273,11 @@ public class Add_quran extends AppCompatActivity {
         else if(nbrOfPages.isChecked())
         {
             EditText page_editText = (EditText) findViewById(R.id.page_num);
-            numOfPages = Integer.parseInt(page_editText.getText().toString());
+
+            if(!page_editText.getText().toString().equals(""))
+                numOfPages = Integer.parseInt(page_editText.getText().toString());
+            else
+                numOfPages = 0;
 
             if(numOfPages == 0)
             {
@@ -280,7 +299,11 @@ public class Add_quran extends AppCompatActivity {
         else if(nbrOfAthman.isChecked())
         {
             EditText athman_editText = (EditText) findViewById(R.id.athman_num);
-            numOfAthman = Integer.parseInt(athman_editText.getText().toString());
+
+            if(!athman_editText.getText().toString().equals(""))
+                numOfAthman = Integer.parseInt(athman_editText.getText().toString());
+            else
+                numOfAthman = 0;
 
             if(numOfAthman == 0)
             {
@@ -310,12 +333,19 @@ public class Add_quran extends AppCompatActivity {
         Toast.makeText(this, "تمت الإضافة بنجاح", Toast.LENGTH_LONG).show();
     }
 
-
     public void annuler_btn(View view)
     {
         finish();
     }
 }
+
+
+
+
+
+
+
+
 
 
 

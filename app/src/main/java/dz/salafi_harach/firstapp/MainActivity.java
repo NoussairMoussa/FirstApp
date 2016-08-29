@@ -9,8 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,10 +32,9 @@ public class MainActivity extends AppCompatActivity {
          DrawerLayout mDrawerLayout  = (DrawerLayout) findViewById(R.id.drawer_layout);
          ListView mDrawerList= (ListView) findViewById(R.id.left_drawer);
 
-
         // Set the adapter for the list view
         mDrawerList.setAdapter(new My_addapter(this,
-                R.layout.row, mPlanetTitles));
+                R.layout.row, mPlanetTitles, 0));
 
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -62,8 +61,19 @@ public class MainActivity extends AppCompatActivity {
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        //setSupportActionBar(myToolbar);
+/*
+        BitmapDrawable background = new BitmapDrawable (
+                BitmapFactory.decodeResource(getResources(),
+                        R.drawable.actionbar_background));
+
+        background.setTileModeX(android.graphics.Shader.TileMode.REPEAT);
+
+        getSupportActionBar().setBackgroundDrawable(background);
+*/
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -112,8 +122,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart()
     {
         super.onStart();
-        myDb = new DataBaseHelper(this);
-        return_to_accueil();
+        Toast.makeText(this, " onStart ", Toast.LENGTH_SHORT).show();
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener
@@ -122,6 +131,11 @@ public class MainActivity extends AppCompatActivity {
         public void onItemClick(AdapterView parent, View view, int position, long id)
         {
             selectItem(position);
+            ListView mDrawerList= (ListView) findViewById(R.id.left_drawer);
+            String[] mPlanetTitles = getResources().getStringArray(R.array.array_adapter);
+            // Set the adapter for the list view
+            mDrawerList.setAdapter(new My_addapter(getBaseContext(),
+                    R.layout.row, mPlanetTitles, position));
         }
     }
 
@@ -134,9 +148,8 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Sura_mahfouda> listQuran;
 
-        TextView title  = (TextView) findViewById(R.id.titre);
         TextView intro = (TextView) findViewById(R.id.intro);
-        ListView contentDB= (ListView) findViewById(R.id.contentBD);
+        final ListView contentDB= (ListView) findViewById(R.id.contentBD);
 
         String[] mPlanetTitles  = getResources().getStringArray(R.array.array_adapter);
         DrawerLayout mDrawerLayout  = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -150,13 +163,13 @@ public class MainActivity extends AppCompatActivity {
 
         if(position == 0)
         {
-            return_to_accueil();
+            //الرئيسية
+
             return;
         }
         else if(position == 1)
         {
             listQuran = myDb.getAllQuran();
-
 
             for(Sura_mahfouda temp : listQuran)
             {
@@ -171,7 +184,6 @@ public class MainActivity extends AppCompatActivity {
             );
 
             intro.setText("");
-            title.setText(mPlanetTitles[position]);
         }
         else if(position == 2)
         {
@@ -183,45 +195,55 @@ public class MainActivity extends AppCompatActivity {
             }
 
             contentDB.setAdapter(
-                    new ArrayAdapter<>(this, R.layout.row_of_quran_list, listQuranForAdapter)
+                    new Adapter_list_sura(this, R.layout.row_of_quran_list, listQuranForAdapter, listQuran)
             );
 
             intro.setText("");
-            title.setText(mPlanetTitles[position]);
-
-            contentDB.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
-                {
-                    Toast.makeText(getBaseContext(), "Rani", Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView)
-                {
-                    Toast.makeText(getBaseContext(), "Rani", Toast.LENGTH_LONG).show();
-                }
-            });
         }
         else if(position == 3)
         {
-            return_to_accueil();
+            about();
             return;
         }
-        //Quran.close();
+
+        contentDB.setOnScrollListener(new AbsListView.OnScrollListener()
+        {
+            int mLastFirstVisibleItem = 0;
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i)
+            {
+                //Toast.makeText(getBaseContext(),"ana houna", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int i, int i1, int i2)
+            {
+                if (view.getId() == contentDB.getId()) {
+                    final int currentFirstVisibleItem = contentDB.getFirstVisiblePosition();
+
+                    if (currentFirstVisibleItem > mLastFirstVisibleItem) {
+                        // getSherlockActivity().getSupportActionBar().hide();
+                        getSupportActionBar().hide();
+                    } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
+                        // getSherlockActivity().getSupportActionBar().show();
+                        getSupportActionBar().show();
+                    }
+
+                    mLastFirstVisibleItem = currentFirstVisibleItem;
+                }
+            }
+        });
         myDb.close();
     }
 
-    private void return_to_accueil()
+    private void about()
     {
-        TextView title  = (TextView) findViewById(R.id.titre);
         TextView intro = (TextView) findViewById(R.id.intro);
         ListView contentDB= (ListView) findViewById(R.id.contentBD);
 
-        setTitle(R.string.app_name);
-        title.setText(R.string.app_name);
-        intro.setText(R.string.intro_txt);
         contentDB.setAdapter(null);
+        setTitle(R.string.app_name);
+        intro.setText(R.string.intro_txt);
     }
 
     @Override

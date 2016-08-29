@@ -1,5 +1,7 @@
 package dz.salafi_harach.firstapp;
 
+import java.text.SimpleDateFormat;
+
 public class Sura_mahfouda {
 
     private Sura sura;
@@ -9,12 +11,13 @@ public class Sura_mahfouda {
     private double nbrAthman_m;
     private double nbrArbaa_m;
     private int nbrPage_m;
+    private long dateOfInsert;
 
     public Sura_mahfouda()
     {
     }
 
-    public Sura_mahfouda(Sura sura, int isMahfoud, int ayaDeb, int ayaFin, double nbrAthman_m, double nbrArbaa_m, int nbrPage_m)
+    public Sura_mahfouda(Sura sura, int isMahfoud, int ayaDeb, int ayaFin, double nbrAthman_m, double nbrArbaa_m, int nbrPage_m, long dateOfInsert)
     {
         this.sura = sura;
         this.isMahfoud = isMahfoud;
@@ -23,6 +26,7 @@ public class Sura_mahfouda {
         this.nbrAthman_m = nbrAthman_m;
         this.nbrArbaa_m = nbrArbaa_m;
         this.nbrPage_m = nbrPage_m;
+        this.dateOfInsert = dateOfInsert;
     }
 
 
@@ -86,39 +90,51 @@ public class Sura_mahfouda {
     @Override
     public String toString()
     {
-        return sura.toString() + createRowOfSura(this);
+        SimpleDateFormat dateFormat  = new SimpleDateFormat("dd/MMM/yyyy");
+        String date = dateFormat.format(getDateOfInsert());
+
+        return sura.toString() + " " ;//+ String.valueOf(new Date().getTime() - getDateOfInsert());
     }
 
-    private String createRowOfSura(Sura_mahfouda sura_mahfouda)
+    public String createRowOfSura()
     {
         String s = "";
-        if(sura_mahfouda.getNbrPage_m() != 0)
-            s += sura_mahfouda.getNbrPage_m() + " صفحــة ";
-        else if(sura_mahfouda.getNbrArbaa_m() != 0)
+        if(getNbrPage_m() != 0)
         {
-            if(sura_mahfouda.getNbrArbaa_m() == 1)
+            if(getNbrPage_m() > 10)
+                s += getNbrPage_m() + " صفحــة ";
+            else if(getNbrPage_m() <= 10 && getNbrPage_m() > 2)
+                s += getNbrPage_m() + " صفحــات ";
+            else if(getNbrPage_m() == 2)
+                s +=  " صفحتـــان ";
+            else
+                s += " صفحــة ";
+        }
+        else if(getNbrArbaa_m() != 0)
+        {
+            if(getNbrArbaa_m() == 1)
                 s += " ربع ";
-            else if(sura_mahfouda.getNbrArbaa_m() == 2)
-                s += sura_mahfouda.getNbrArbaa_m() + " ربعان ";
-            else if(sura_mahfouda.getNbrArbaa_m() > 2 && sura_mahfouda.getNbrArbaa_m() <= 10)
-                s += sura_mahfouda.getNbrArbaa_m() + " أرباع ";
-            else if(sura_mahfouda.getNbrArbaa_m() > 10)
-                s += sura_mahfouda.getNbrArbaa_m() + " ربع ";
+            else if(getNbrArbaa_m() == 2)
+                s += getNbrArbaa_m() + " ربعان ";
+            else if(getNbrArbaa_m() > 2 && getNbrArbaa_m() <= 10)
+                s += getNbrArbaa_m() + " أرباع ";
+            else if(getNbrArbaa_m() > 10)
+                s += getNbrArbaa_m() + " ربع ";
         }
-        else if(sura_mahfouda.getNbrAthman_m() != 0)
+        else if(getNbrAthman_m() != 0)
         {
-            if(sura_mahfouda.getNbrAthman_m() == 1)
+            if(getNbrAthman_m() == 1)
                 s += " ثمن ";
-            else if(sura_mahfouda.getNbrAthman_m() == 2)
+            else if(getNbrAthman_m() == 2)
                 s += " ثمنان ";
-            else if(sura_mahfouda.getNbrAthman_m() > 2 && sura_mahfouda.getNbrAthman_m() <= 10)
-                s += sura_mahfouda.getNbrAthman_m() + " أثمان ";
-            else if(sura_mahfouda.getNbrAthman_m() > 10)
-                s += sura_mahfouda.getNbrAthman_m() + " ثمن ";
+            else if(getNbrAthman_m() > 2 && getNbrAthman_m() <= 10)
+                s += getNbrAthman_m() + " أثمان ";
+            else if(getNbrAthman_m() > 10)
+                s += getNbrAthman_m() + " ثمن ";
         }
-        else if(sura_mahfouda.getAyaDeb() != 0)
+        else if(getAyaDeb() != 0)
         {
-            int nbrOfAyat = sura_mahfouda.getAyaFin() - sura_mahfouda.getAyaDeb();
+            int nbrOfAyat = getAyaFin() - getAyaDeb();
 
             if(nbrOfAyat == 1)
                 s += " آيـــة ";
@@ -130,5 +146,13 @@ public class Sura_mahfouda {
                 s += nbrOfAyat + " آيــــة ";
         }
         return s;
+    }
+
+    public long getDateOfInsert() {
+        return dateOfInsert;
+    }
+
+    public void setDateOfInsert(long dateOfInsert) {
+        this.dateOfInsert = dateOfInsert;
     }
 }

@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_of_sura_list"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_of_list_sura"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp"
-    android:gravity="right"
-    android:typeface="serif"
-    android:textSize="20sp"
-    android:textColor="#c8000000"/>
+    android:orientation="horizontal"
+    android:layoutDirection="rtl">
+
+    <TextView
+        android:id="@+id/item_of_sura_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:gravity="right"
+        android:typeface="serif"
+        android:textSize="20sp"
+        android:text="kalem"/>
+
+    <TextView
+        android:id="@+id/sous_item_of_sura_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:textSize="14sp"
+        android:fontFamily="casual"
+        android:padding="15dp"
+        android:text="kalem"/>
+
+</LinearLayout>
+
+
+
 

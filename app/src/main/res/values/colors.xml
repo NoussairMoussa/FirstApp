@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#03A9F4</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#607D8B</color>
-    <color name="safe">#96ccff90</color>
+    <color name="colorPrimary">#34a4aa</color>
+    <color name="colorPrimaryDark">#13595d</color>
+    <color name="colorAccent">#b74a90</color>
+    <color name="safe">#adccff90</color>
+    <color name="warning">#f6dc3f</color>
     <color name="danger">#96ff8a80</color>
+    <color name="tranparent">#4134a4aa</color>
+
 
 </resources>
