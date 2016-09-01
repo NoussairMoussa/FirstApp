@@ -2,13 +2,14 @@ package dz.salafi_harach.firstapp;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TwoLineListItem;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,13 +26,13 @@ public class Adapter_list_sura extends ArrayAdapter<String> {
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
+    public View getView(final int position, View convertView, ViewGroup parent)
     {
         LayoutInflater l = LayoutInflater.from(getContext());
         View v;
         v = l.inflate(R.layout.row_of_quran_list, parent, false);
 
-        LinearLayout linearLayout = (LinearLayout) v.findViewById(R.id.layout_of_list_sura);
+        TwoLineListItem linearLayout = (TwoLineListItem) v.findViewById(R.id.layout_of_list_sura);
 
         TextView textView = (TextView) v.findViewById(R.id.item_of_sura_list);
         textView.setText(listQuran.get(position).toString());
@@ -77,6 +78,17 @@ public class Adapter_list_sura extends ArrayAdapter<String> {
                 soustextView.setText(listQuran.get(position).createRowOfSura());
                 soustextView.setTextColor(v.getResources().getColor(R.color.colorPrimary));
             }
+        }
+        if(listQuran.get(position).getIsMahfoud() == 1)
+        {
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent edit_quran_intent = new Intent(getContext(), Edit_quran_activity.class);
+                    edit_quran_intent.putExtra("p", listQuran.get(position).getSura().getSuraNum());
+                    getContext().startActivity(edit_quran_intent);
+                }
+            });
         }
         return v;
     }

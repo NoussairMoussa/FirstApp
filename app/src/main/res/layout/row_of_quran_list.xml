@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TwoLineListItem
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_of_list_sura"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    android:mode="twoLine">
 
     <TextView
         android:id="@+id/item_of_sura_list"
@@ -24,9 +26,11 @@
         android:textSize="14sp"
         android:fontFamily="casual"
         android:padding="15dp"
-        android:text="kalem"/>
+        android:text="kalem"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="20dp"/>
 
-</LinearLayout>
+</TwoLineListItem>
 
 
 

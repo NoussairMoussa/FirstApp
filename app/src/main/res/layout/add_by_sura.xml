@@ -29,14 +29,17 @@
         android:id="@+id/small_text_for_radio_group"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="كيفية الإضافة"
+        android:textSize="20sp"
         android:layout_below="@+id/quran_list_spinner"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="25dp"/>
+        android:layout_marginTop="35dp"/>
+
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/small_text_for_radio_group"
+        android:layout_marginTop="20dp"
         android:id="@+id/horizontalScrollView">
 
     <RadioGroup
@@ -109,131 +112,16 @@
     </RadioGroup>
 </HorizontalScrollView>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="0.99"
-        android:paddingRight="15dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/horizontalScrollView"
-        android:layout_marginTop="20dp"
-        android:id="@+id/add_by_ayat_layout"
-        android:gravity="end">
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:enabled="false"
-            android:id="@+id/fin_aya"
-            android:layout_weight="0.3"
-            android:textDirection="rtl"/>
-        s
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="إلى الآيـة: "
-            android:id="@+id/textView2"
-            android:layout_weight="0.19"/>
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:enabled="false"
-            android:ems="10"
-            android:id="@+id/deb_aya"
-            android:layout_weight="0.3"
-            android:textDirection="rtl"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="من الآيـة: "
-            android:id="@+id/textView"
-            android:layout_weight="0.19"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:orientation="horizontal"
-        android:weightSum="0.99"
-        android:id="@+id/add_by_arbaa_layout"
-        android:layout_below="@+id/add_by_ayat_layout"
-        android:layout_marginTop="20dp"
-        android:gravity="end">
-        <EditText
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:inputType="number"
-            android:textDirection="rtl"
-            android:enabled="false"
-            android:layout_weight="0.3"
-            android:id="@+id/arbaa_num"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nbrArbaa_textView"
-            android:layout_margin="10dp"
-            android:layout_weight="0.19"
-            android:id="@+id/arbaa_num_textView"/>
-        <EditText
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="0.3"
-            android:inputType="number"
-            android:textDirection="rtl"
-            android:enabled="false"
-            android:id="@+id/page_num"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="عدد الصفحات"
-            android:layout_weight="0.19"
-            android:layout_margin="10dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end"
-        android:id="@+id/add_by_athman_layout"
-        android:layout_below="@+id/add_by_arbaa_layout"
-        android:layout_alignRight="@+id/small_text_for_radio_group"
-        android:layout_alignEnd="@+id/small_text_for_radio_group">
-    <EditText
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:inputType="number"
-        android:textDirection="rtl"
-        android:enabled="false"
-        android:id="@+id/athman_num"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="عدد الأثمان"
-        android:layout_margin="10dp"/>
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
+        android:id="@+id/linearLayout"
         android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/small_text_for_radio_group"
-        android:layout_alignEnd="@+id/small_text_for_radio_group">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <Button
             android:layout_width="wrap_content"
@@ -254,6 +142,19 @@
             android:clickable="false"
             android:enabled="false"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:id="@+id/sura_to_add_textView"
+        android:layout_below="@+id/horizontalScrollView"
+        android:layout_alignRight="@+id/horizontalScrollView"
+        android:layout_alignEnd="@+id/horizontalScrollView" />
+
 
 </RelativeLayout>
 

@@ -13,9 +13,7 @@ public class Sura_mahfouda {
     private int nbrPage_m;
     private long dateOfInsert;
 
-    public Sura_mahfouda()
-    {
-    }
+    public Sura_mahfouda(){}
 
     public Sura_mahfouda(Sura sura, int isMahfoud, int ayaDeb, int ayaFin, double nbrAthman_m, double nbrArbaa_m, int nbrPage_m, long dateOfInsert)
     {
@@ -99,51 +97,56 @@ public class Sura_mahfouda {
     public String createRowOfSura()
     {
         String s = "";
-        if(getNbrPage_m() != 0)
+        if(isMahfoud == 1)
         {
-            if(getNbrPage_m() > 10)
-                s += getNbrPage_m() + " صفحــة ";
-            else if(getNbrPage_m() <= 10 && getNbrPage_m() > 2)
-                s += getNbrPage_m() + " صفحــات ";
-            else if(getNbrPage_m() == 2)
-                s +=  " صفحتـــان ";
-            else
-                s += " صفحــة ";
-        }
-        else if(getNbrArbaa_m() != 0)
-        {
-            if(getNbrArbaa_m() == 1)
-                s += " ربع ";
-            else if(getNbrArbaa_m() == 2)
-                s += getNbrArbaa_m() + " ربعان ";
-            else if(getNbrArbaa_m() > 2 && getNbrArbaa_m() <= 10)
-                s += getNbrArbaa_m() + " أرباع ";
-            else if(getNbrArbaa_m() > 10)
-                s += getNbrArbaa_m() + " ربع ";
-        }
-        else if(getNbrAthman_m() != 0)
-        {
-            if(getNbrAthman_m() == 1)
-                s += " ثمن ";
-            else if(getNbrAthman_m() == 2)
-                s += " ثمنان ";
-            else if(getNbrAthman_m() > 2 && getNbrAthman_m() <= 10)
-                s += getNbrAthman_m() + " أثمان ";
-            else if(getNbrAthman_m() > 10)
-                s += getNbrAthman_m() + " ثمن ";
-        }
-        else if(getAyaDeb() != 0)
-        {
-            int nbrOfAyat = getAyaFin() - getAyaDeb();
+            if(getNbrPage_m() != 0)
+            {
+                if(getNbrPage_m() > 10)
+                    s += getNbrPage_m() + " صفحــة ";
+                else if(getNbrPage_m() <= 10 && getNbrPage_m() > 2)
+                    s += getNbrPage_m() + " صفحــات ";
+                else if(getNbrPage_m() == 2)
+                    s +=  " صفحتـــان ";
+                else
+                    s += " صفحــة ";
+            }
+            else if(getNbrArbaa_m() != 0)
+            {
+                if(getNbrArbaa_m() == 1)
+                    s += " ربع ";
+                else if(getNbrArbaa_m() == 2)
+                    s += getNbrArbaa_m() + " ربعان ";
+                else if(getNbrArbaa_m() > 2 && getNbrArbaa_m() <= 10)
+                    s += getNbrArbaa_m() + " أرباع ";
+                else if(getNbrArbaa_m() > 10)
+                    s += getNbrArbaa_m() + " ربع ";
+            }
+            else if(getNbrAthman_m() != 0)
+            {
+                if(getNbrAthman_m() == 1)
+                    s += " ثمن ";
+                else if(getNbrAthman_m() == 2)
+                    s += " ثمنان ";
+                else if(getNbrAthman_m() > 2 && getNbrAthman_m() <= 10)
+                    s += getNbrAthman_m() + " أثمان ";
+                else if(getNbrAthman_m() > 10)
+                    s += getNbrAthman_m() + " ثمن ";
+            }
+            else if(getAyaDeb() != 0)
+            {
+                int nbrOfAyat = getAyaFin() - getAyaDeb();
 
-            if(nbrOfAyat == 1)
-                s += " آيـــة ";
-            else if(nbrOfAyat == 2)
-                s += " آيتــــان ";
-            else if(nbrOfAyat > 2 && nbrOfAyat <= 10)
-                s += nbrOfAyat + " آيــــات ";
-            else if(nbrOfAyat > 10)
-                s += nbrOfAyat + " آيــــة ";
+                if(nbrOfAyat == 1)
+                    s += " آيـــة ";
+                else if(nbrOfAyat == 2)
+                    s += " آيتــــان ";
+                else if(nbrOfAyat > 2 && nbrOfAyat <= 10)
+                    s += nbrOfAyat + " آيــــات ";
+                else if(nbrOfAyat > 10)
+                    s += nbrOfAyat + " آيــــة ";
+            }
+            else
+                s = "كــاملة";
         }
         return s;
     }

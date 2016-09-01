@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Quran app</string>
-    <string name="drawer_open" >open</string>
-    <string name="drawer_close" >close</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
     <string name="empty_db">المحتوى فارغ</string>
     <string name="add_quran">أضف قرآن</string>
-    <string name="intro_txt" >
+    <string name="intro_txt">
         الــــسلام عــليـــكم
         \n
         هذا التطــبيق هو لمساعدتك على حفظ و مراجعة القرآن الكــريــم لإضافة حفظ جـديد أنقر على الزر فوق.
@@ -17,4 +17,9 @@
     </string>
     <string name="setting_btn">تعديـــل</string>
     <string name="nbrArbaa_textView">عدد الأربـــاع</string>
+    <string name="title_activity_activity_add_quran">أضف قرآن</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_edit_quran_activity">Edit_quran_activity</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>

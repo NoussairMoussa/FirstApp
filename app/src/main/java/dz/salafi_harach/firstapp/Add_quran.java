@@ -2,14 +2,10 @@ package dz.salafi_harach.firstapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputFilter;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -19,7 +15,7 @@ public class Add_quran extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_quran);
+        setContentView(R.layout.add_by_sura);
 
         //Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         //setSupportActionBar(myToolbar);
@@ -35,31 +31,26 @@ public class Add_quran extends AppCompatActivity {
 
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         spinner.setAdapter(adapter);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id)
             {
-                //Spinner spinner = (Spinner) findViewById(R.id.quran_list_spinner);
-                //long suraSelected = spinner.getSelectedItemId();
-
                 DataBaseHelper myDb = new DataBaseHelper(getBaseContext());
                 int nbrOfAyat = myDb.getNumberOfAya(position + 1);
 
-                EditText aya_deb = (EditText) findViewById(R.id.deb_aya);
-                EditText aya_fin = (EditText) findViewById(R.id.fin_aya);
+                String nbrOfArbaa = myDb.getElement(position +1, DataBaseHelper.NBRARBAA);
+                String nbrOfAthman = myDb.getElement(position +1, DataBaseHelper.NBRATHMAN);
+                String nbrOfPages = myDb.getElement(position +1, DataBaseHelper.NBROFPAGES);
 
-                aya_deb.setFilters(new InputFilter[]{ new InputFilterMinMax("1", String.valueOf(nbrOfAyat))});
-                aya_fin.setFilters(new InputFilter[]{ new InputFilterMinMax("1", String.valueOf(nbrOfAyat))});
-                //Toast.makeText(getBaseContext(), String.valueOf(nbrOfAyat), Toast.LENGTH_LONG).show();
                 myDb.close();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView)
             {
-
+                Toast.makeText(getBaseContext(), "kalem", Toast.LENGTH_LONG).show();
             }
 
         });
@@ -76,7 +67,7 @@ public class Add_quran extends AppCompatActivity {
         }
         return true;
     }
-
+/*
     public void all_sura(View view)
     {
         EditText aya_deb = (EditText) findViewById(R.id.deb_aya);
@@ -266,7 +257,6 @@ public class Add_quran extends AppCompatActivity {
             {
                 Toast.makeText(this, "تمت إضافة السورة كاملة ", Toast.LENGTH_LONG).show();
             }
-             */
 
             myDb.addQuran((int) sura_selected, 0, 0, 0, numOfArbaa, 0);
         }
@@ -292,8 +282,6 @@ public class Add_quran extends AppCompatActivity {
             {
                 Toast.makeText(this, "تمت إضافة السورة كاملة ", Toast.LENGTH_LONG).show();
             }
-             */
-
             myDb.addQuran((int) sura_selected, numOfPages, 0, 0, 0, 0);
         }
         else if(nbrOfAthman.isChecked())
@@ -318,7 +306,6 @@ public class Add_quran extends AppCompatActivity {
             {
                 Toast.makeText(this, "تمت إضافة السورة كاملة ", Toast.LENGTH_LONG).show();
             }
-             */
 
             myDb.addQuran((int) sura_selected, 0, 0, 0, 0, numOfAthman);
         }
@@ -332,11 +319,12 @@ public class Add_quran extends AppCompatActivity {
 
         Toast.makeText(this, "تمت الإضافة بنجاح", Toast.LENGTH_LONG).show();
     }
-
+*/
     public void annuler_btn(View view)
     {
         finish();
     }
+
 }
 
 

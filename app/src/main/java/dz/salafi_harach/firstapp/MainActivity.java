@@ -109,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
         // Handle your other action bar items...
         if(item.getItemId() == R.id.addQuran)
         {
-            Intent intent = new Intent(this, Add_quran.class);
-            startActivity(intent);
+            Intent add_quran_activity = new Intent(this, Activity_add_quran.class);
+            startActivity(add_quran_activity);
             return true;
         }
 
@@ -164,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
         if(position == 0)
         {
             //الرئيسية
-
             return;
         }
         else if(position == 1)
@@ -209,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
         contentDB.setOnScrollListener(new AbsListView.OnScrollListener()
         {
             int mLastFirstVisibleItem = 0;
+
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i)
             {

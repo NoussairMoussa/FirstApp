@@ -235,7 +235,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public String getElement(long suraNumber, String elm)
     {
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor c;
 
         c = db.query(
@@ -263,7 +262,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public ArrayList<Sura_mahfouda> getAllQuran()
     {
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor c;
 
         c = db.query(

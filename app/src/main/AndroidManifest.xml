@@ -4,11 +4,11 @@
 
     <application
         android:allowBackup="true"
+        android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:debuggable="true">
+        android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,7 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="dz.salafi_harach.firstapp.Add_quran"/>
+        <activity android:name=".Add_quran" />
+        <activity
+            android:name=".Activity_add_quran"
+            android:label="@string/title_activity_activity_add_quran" />
+        <activity
+            android:name=".Edit_quran_activity"
+            android:label="@string/title_activity_edit_quran_activity" />
     </application>
 
 </manifest>

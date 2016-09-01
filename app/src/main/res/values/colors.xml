@@ -3,10 +3,12 @@
     <color name="colorPrimary">#34a4aa</color>
     <color name="colorPrimaryDark">#13595d</color>
     <color name="colorAccent">#b74a90</color>
-    <color name="safe">#adccff90</color>
-    <color name="warning">#f6dc3f</color>
-    <color name="danger">#96ff8a80</color>
+    <color name="safe">#baccff90</color>
+    <color name="warning">#c8f6dc3f</color>
+    <color name="danger">#beff8a80</color>
     <color name="tranparent">#4134a4aa</color>
 
-
 </resources>
+
+
+
