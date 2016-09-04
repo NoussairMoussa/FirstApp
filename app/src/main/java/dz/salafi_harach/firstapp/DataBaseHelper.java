@@ -384,7 +384,143 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return nbrOfAyat;
     }
 
+    public boolean add_juz(int juz)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Date d = new Date();
+        long date = d.getTime();
+
+        ContentValues v = new ContentValues();
+
+        v.put(ISMAHFOUD, 1);
+        v.put(DATEOFINSERT, date);
+
+        if(juz == 2)
+            juz = 1;
+        else if(juz == 5)
+            juz = 4;
+
+        db.update("Sura", v, JUZ + "=?", new String[]{String.valueOf(juz)});
+        db.close();
+        return true;
+    }
+
+    public boolean isJuzMahfoud(int juz)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c;
+        boolean juzIsMahfoud = true;
+
+        switch (juz)
+        {
+            case 2: juz = 1; break;
+            case 5: juz = 4; break;
+        }
+
+        c = db.query(
+                "Sura",                                      // The table to query
+                new String[]{ISMAHFOUD},                    // The columns to return
+                JUZ + "=?",                                // The columns for the WHERE clause
+                new String[]{String.valueOf(juz)},        // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                    // The sort order
+        );
+        c.moveToFirst();
+        String string;
+
+        if (c.getCount() > 0)
+        {
+            do
+            {
+                string = c.getString(0);
+                if(string.equals("0"))
+                {
+                    juzIsMahfoud = false;
+                    break;
+                }
+            } while (c.moveToNext());
+        }
+        return juzIsMahfoud;
+    }
+
+    public Sura_mahfouda getSura(int sura_num)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor c;
+
+        c = db.query(
+                "Sura",  // The table to query
+                null,                               // The columns to return
+                SURANUMBER + "=?",                                // The columns for the WHERE clause
+                new String[]{String.valueOf(sura_num)},                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+        c.moveToFirst();
+        Sura s;
+        Sura_mahfouda s_m;
+        Sura_mahfouda sura_mahfouda_to_return = null;
+
+        if (c.getCount() > 0)
+        {
+            do
+            {
+                s = new Sura(Integer.parseInt(c.getString(c.getColumnIndex(SURANUMBER))),
+                        c.getString(c.getColumnIndex(SURANAME)),
+                        Integer.parseInt(c.getString(c.getColumnIndex(NBROFAYAT))),
+                        Double.parseDouble(c.getString(c.getColumnIndex(NBRARBAA))),
+                        Double.parseDouble(c.getString(c.getColumnIndex(NBRATHMAN))),
+                        Double.parseDouble(c.getString(c.getColumnIndex(NBROFPAGES))),
+                        Integer.parseInt(c.getString(c.getColumnIndex(PAGENUM))),
+                        Integer.parseInt(c.getString(c.getColumnIndex(JUZ))),
+                        Boolean.parseBoolean((c.getString(c.getColumnIndex(TYPE)))) ? type.MADANIYA: type.MAKIYAH);
+
+                s_m = new Sura_mahfouda(s,
+                        Integer.parseInt(c.getString(c.getColumnIndex(ISMAHFOUD))),
+                        Integer.parseInt(c.getString(c.getColumnIndex(AYADEB))),
+                        Integer.parseInt(c.getString(c.getColumnIndex(AYAFIN))),
+                        Double.parseDouble(c.getString(c.getColumnIndex(NBRATHMAN_M))),
+                        Double.parseDouble(c.getString(c.getColumnIndex(NBRARBAA_M))),
+                        Integer.parseInt(c.getString(c.getColumnIndex(NBRPAGE_M))),
+                        Long.parseLong(c.getString(c.getColumnIndex(DATEOFINSERT))));
+
+                sura_mahfouda_to_return = s_m;
+            } while (c.moveToNext());
+        }
+        c.close();
+        return sura_mahfouda_to_return;
+    }
+
+    public boolean edit_sura(int sura_num, String elm, int val)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues v = new ContentValues();
+
+        if(elm == AYAFIN)
+        {
+            String a = this.getElement(sura_num,AYADEB);
+            String b = this.getElement(sura_num,AYAFIN);
+
+            int newAyaFin = Integer.parseInt(b) - ((Integer.parseInt(b) - Integer.parseInt(a) + 1) - val) ;
+
+            v.put(AYAFIN, newAyaFin);
+            db.update("Sura", v, SURANUMBER + "=?", new String[]{String.valueOf(sura_num)});
+        }
+        else
+        {
+            v.put(elm, val);
+            db.update("Sura", v, SURANUMBER + "=?", new String[]{String.valueOf(sura_num)});
+            db.close();
+        }
+        return true;
+    }
 }
+
+
 
 
 

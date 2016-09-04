@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
@@ -61,19 +63,11 @@ public class MainActivity extends AppCompatActivity {
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        //Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        //setSupportActionBar(myToolbar);
-/*
-        BitmapDrawable background = new BitmapDrawable (
-                BitmapFactory.decodeResource(getResources(),
-                        R.drawable.actionbar_background));
-
-        background.setTileModeX(android.graphics.Shader.TileMode.REPEAT);
-
-        getSupportActionBar().setBackgroundDrawable(background);
-*/
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        final ListView contentDB= (ListView) findViewById(R.id.contentBD);
+        registerForContextMenu(contentDB);
     }
 
     @Override
@@ -113,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(add_quran_activity);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -122,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart()
     {
         super.onStart();
-        Toast.makeText(this, " onStart ", Toast.LENGTH_SHORT).show();
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener
@@ -175,9 +167,6 @@ public class MainActivity extends AppCompatActivity {
                 listQuranForAdapter.add(temp.toString());
             }
 
-            /*contentDB.setAdapter(
-                    new ArrayAdapter<>(this, R.layout.row_of_quran_list, listQuranForAdapter)
-            );*/
             contentDB.setAdapter(
                     new Adapter_list_sura(this, R.layout.row_of_quran_list, listQuranForAdapter, listQuran)
             );
@@ -187,6 +176,10 @@ public class MainActivity extends AppCompatActivity {
         else if(position == 2)
         {
             listQuran = myDb.getAllSuraMahfouda();
+
+            if(listQuran.isEmpty())
+                Toast.makeText(this, "لم يتــم إضـــافة أي ســـورة", Toast.LENGTH_LONG).show();
+
             for(Sura_mahfouda temp : listQuran)
             {
                 String suraRow = temp.toString();
@@ -244,6 +237,32 @@ public class MainActivity extends AppCompatActivity {
         contentDB.setAdapter(null);
         setTitle(R.string.app_name);
         intro.setText(R.string.intro_txt);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item)
+    {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId())
+        {
+            case R.id.delete_sura:
+                deleteSura();
+                return true;
+        }
+        return true;
+    }
+
+    private void deleteSura()
+    {
+        Toast.makeText(this, "delete!!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

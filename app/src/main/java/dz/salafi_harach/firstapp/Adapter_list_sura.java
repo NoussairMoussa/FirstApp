@@ -1,9 +1,7 @@
 package dz.salafi_harach.firstapp;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +22,6 @@ public class Adapter_list_sura extends ArrayAdapter<String> {
         listQuran = listOfSuraMahfouda;
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
@@ -78,14 +75,16 @@ public class Adapter_list_sura extends ArrayAdapter<String> {
                 soustextView.setText(listQuran.get(position).createRowOfSura());
                 soustextView.setTextColor(v.getResources().getColor(R.color.colorPrimary));
             }
+            linearLayout.setClickable(true);
         }
         if(listQuran.get(position).getIsMahfoud() == 1)
         {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
                     Intent edit_quran_intent = new Intent(getContext(), Edit_quran_activity.class);
-                    edit_quran_intent.putExtra("p", listQuran.get(position).getSura().getSuraNum());
+                    edit_quran_intent.putExtra("sura_num", listQuran.get(position).getSura().getSuraNum());
                     getContext().startActivity(edit_quran_intent);
                 }
             });

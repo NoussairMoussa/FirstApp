@@ -16,10 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Add_quran" />
         <activity
             android:name=".Activity_add_quran"
-            android:label="@string/title_activity_activity_add_quran" />
+            android:label="@string/title_activity_activity_add_quran"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
             android:name=".Edit_quran_activity"
             android:label="@string/title_activity_edit_quran_activity" />

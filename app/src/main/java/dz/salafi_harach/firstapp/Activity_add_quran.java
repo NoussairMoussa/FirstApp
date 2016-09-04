@@ -3,6 +3,7 @@ package dz.salafi_harach.firstapp;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.app.DialogFragment;
@@ -18,15 +19,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
+import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Activity_add_quran extends AppCompatActivity implements My_Dialog.My_DialogListener{
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    private String sura_to_add_textView;
+
+    public Activity_add_quran() {}
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,6 +43,9 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
 
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        //TextView numberPicker = (TextView) findViewById(R.id.numberPicker);
+        //numberPicker.setText("33");
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -89,7 +97,9 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
                         actionBar.setSelectedNavigationItem(position);
                     }
                 });
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -111,10 +121,16 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
         return super.onOptionsItemSelected(item);
     }
 
+
     /**
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+
+        private int nbrOfAyat;
+        private String nbrOfAthman;
+        private String nbrOfPages;
+        private String nbrOfArbaa;
 
         public PlaceholderFragment() {}
 
@@ -145,10 +161,6 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
             int r = args.getInt("suraOrJuz");
 
             final View rootView = inflater.inflate(r, container, false);
-            //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-
-            //--------------------
 
             if(r == R.layout.add_by_sura)
             {
@@ -168,17 +180,65 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id)
                     {
-                        //Spinner spinner = (Spinner) findViewById(R.id.quran_list_spinner);
-                        //long suraSelected = spinner.getSelectedItemId();
-
                         DataBaseHelper myDb = new DataBaseHelper(rootView.getContext());
-                        int nbrOfAyat = myDb.getNumberOfAya(position + 1);
+                        nbrOfAyat = myDb.getNumberOfAya(position + 1);
+                        nbrOfArbaa = myDb.getElement(position +1, DataBaseHelper.NBRARBAA);
 
-                        String nbrOfArbaa = myDb.getElement(position +1, DataBaseHelper.NBRARBAA);
-                        String nbrOfAthman = myDb.getElement(position +1, DataBaseHelper.NBRATHMAN);
-                        String nbrOfPages = myDb.getElement(position +1, DataBaseHelper.NBROFPAGES);
+                        if(Float.parseFloat(nbrOfArbaa) != 0)
+                        {
+                            rootView.findViewById(R.id.by_nbrOfArbaa).setEnabled(true);
+                            rootView.findViewById(R.id.by_nbrOfArbaa).setClickable(true);
+                        }
+
+                        nbrOfAthman = myDb.getElement(position +1, DataBaseHelper.NBRATHMAN);
+
+                        if(Float.parseFloat(nbrOfAthman) != 0)
+                        {
+                            rootView.findViewById(R.id.by_nbrOfAthman).setEnabled(true);
+                            rootView.findViewById(R.id.by_nbrOfAthman).setClickable(true);
+                        }
+
+                        nbrOfPages = myDb.getElement(position +1, DataBaseHelper.NBROFPAGES);
+
+                        if(Float.parseFloat(nbrOfPages) != 0)
+                        {
+                            rootView.findViewById(R.id.by_nbrOfPages).setEnabled(true);
+                            rootView.findViewById(R.id.by_nbrOfPages).setClickable(true);
+                        }
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString(DataBaseHelper.NBRARBAA, nbrOfArbaa);
+                        bundle.putString(DataBaseHelper.NBRATHMAN, nbrOfAthman);
+                        bundle.putString(DataBaseHelper.NBROFPAGES, nbrOfPages);
+                        bundle.putString(DataBaseHelper.NBROFAYAT, String.valueOf(nbrOfAyat));
+
+                        Intent i = new Intent();
+                        i.putExtras(bundle);
+                        getActivity().setIntent(i);
 
                         myDb.close();
+                        SeekBar seekBar = (SeekBar) rootView.findViewById(R.id.seek_bar);
+                        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+                        {
+                            @Override
+                            public void onProgressChanged(SeekBar seekBar, int i, boolean b)
+                            {
+                                TextView poucentage = (TextView) rootView.findViewById(R.id.pourcentage_of_actvt_add);
+                                poucentage.setText(String.valueOf(i)+"%");
+                            }
+
+                            @Override
+                            public void onStartTrackingTouch(SeekBar seekBar)
+                            {
+
+                            }
+
+                            @Override
+                            public void onStopTrackingTouch(SeekBar seekBar)
+                            {
+
+                            }
+                        });
                     }
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView){}
@@ -186,109 +246,34 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
             }
             else
             {
-                GridView juz_gridView = (GridView) rootView.findViewById(R.id.juz_gridView);
-/*
-                juz_gridView.setAdapter(new ListAdapter() {
-
-                    public Context getContextToList()
+                final GridView juz_gridView = (GridView) rootView.findViewById(R.id.juz_gridView);
+                Adapter_for_grid_view adapter_for_grid_view = new Adapter_for_grid_view(rootView.getContext());
+                juz_gridView.setAdapter(adapter_for_grid_view);
+                juz_gridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
                     {
-                        return getContext();
-                    }
-                    @Override
-                    public boolean areAllItemsEnabled() {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean isEnabled(int i) {
-                        return false;
-                    }
-
-                    @Override
-                    public void registerDataSetObserver(DataSetObserver dataSetObserver) {
-
-                    }
-
-                    @Override
-                    public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {
-
-                    }
-
-                    @Override
-                    public int getCount()
-                    {
-                        return 3;
-                    }
-
-                    @Override
-                    public Object getItem(int i)
-                    {
-                        return null;
-                    }
-
-                    @Override
-                    public long getItemId(int i)
-                    {
-                        return 0;
-                    }
-
-                    @Override
-                    public boolean hasStableIds()
-                    {
-                        return false;
-                    }
-
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup viewGroup)
-                    {
-                        TextView textView = null;
-                        String tab[] = {"kalem", "moussa", "noussair"};
-                        if(convertView == null)
+                        String item = (String) juz_gridView.getItemAtPosition(position);
+                        TextView v = (TextView) view;
+                        if(v.getTag().toString().equals("select") && item.equals(v.getText()))
                         {
-                            textView = new TextView(getContextToList());
-                            textView.setText(tab[position]);
+                            view.setBackground(rootView.getResources().getDrawable(R.drawable.shape2));
+                            view.setTag("none");
+                            Toast.makeText(rootView.getContext(), "if", Toast.LENGTH_SHORT).show();
                         }
                         else
-                            textView = (TextView) convertView;
-
-                        return textView;
-                    }
-
-                    @Override
-                    public int getItemViewType(int i)
-                    {
-                        return 0;
-                    }
-
-                    @Override
-                    public int getViewTypeCount()
-                    {
-                        return 1;
-                    }
-
-                    @Override
-                    public boolean isEmpty()
-                    {
-                        return false;
-                    }
-                });
-*/
-
+                        {
+                            view.setBackground(rootView.getResources().getDrawable(R.drawable.shape));
+                            view.setTag("select");
+                            Toast.makeText(rootView.getContext(), "else", Toast.LENGTH_SHORT).show();
+                        }
 /*
-                juz_gridView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
-                    {
-
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView)
-                    {
-
+                        view.setBackground(rootView.getResources().getDrawable(R.drawable.shape));
+                        Toast.makeText(rootView.getContext(), "pos: " + position + " id: " + l, Toast.LENGTH_SHORT).show();
+*/
                     }
                 });
-*/
             }
             //--------------------
             return rootView;
@@ -326,49 +311,55 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
     @Override
     public void onDialogPositiveClick(DialogFragment dialog)
     {
-/*
-        NumberPicker numberPicker = (NumberPicker) findViewById(R.id.numberPicker);
-        int val = numberPicker.getValue();
-*/
-        if (dialog.getTag() == "all_sura")
-        {
-            if(add_quran("",0,0))
-            {
-                RadioButton all_btn = (RadioButton) findViewById(R.id.all_btn);
-                all_btn.setChecked(false);
-            }
-        }
-        else if (dialog.getTag() == "add_by_aya_enabled")
-        {
-            if(add_quran(DataBaseHelper.AYADEB, 24, 44))
-            {
-                RadioButton ayat = (RadioButton) findViewById(R.id.by_ayat);
-                ayat.setChecked(false);
-            }
-        }
-        else if (dialog.getTag() == "add_by_page_enabled")
-        {
-            if(add_quran(DataBaseHelper.NBRPAGE_M, 24, 0))
-            {
-                RadioButton nbrOfPages = (RadioButton) findViewById(R.id.by_nbrOfPages);
-                nbrOfPages.setChecked(false);
+        switch (dialog.getTag()) {
+            case "all_sura":
+                if (add_quran("", 0, 0)) {
+                    RadioButton all_btn = (RadioButton) findViewById(R.id.all_btn);
+                    all_btn.setChecked(false);
+                }
+                break;
+            case "add_by_aya_enabled": {
+                NumberPicker numberPicker1 = (NumberPicker) dialog.getDialog().findViewById(R.id.numberPicker1);
+                int i = numberPicker1.getValue();
+                NumberPicker numberPicker2 = (NumberPicker) dialog.getDialog().findViewById(R.id.numberPicker2);
+                int j = numberPicker2.getValue();
 
+                if (add_quran(DataBaseHelper.AYADEB, i, j)) {
+                    RadioButton ayat = (RadioButton) findViewById(R.id.by_ayat);
+                    ayat.setChecked(false);
+                }
+                break;
             }
-        }
-        else if (dialog.getTag() == "add_by_athman_enabled")
-        {
-            if(add_quran(DataBaseHelper.NBRATHMAN_M, 24, 0))
-            {
-                RadioButton nbrOfAthman = (RadioButton) findViewById(R.id.by_nbrOfAthman);
-                nbrOfAthman.setChecked(false);
+            case "add_by_page_enabled": {
+                NumberPicker numberPicker = (NumberPicker) dialog.getDialog().findViewById(R.id.numberPicker);
+                int i = numberPicker.getValue();
+
+                if (add_quran(DataBaseHelper.NBRPAGE_M, i, 0)) {
+                    RadioButton nbrOfPages = (RadioButton) findViewById(R.id.by_nbrOfPages);
+                    nbrOfPages.setChecked(false);
+
+                }
+                break;
             }
-        }
-        else if (dialog.getTag() == "add_by_arbaa_enabled")
-        {
-            if(add_quran(DataBaseHelper.NBRARBAA_M, 24, 0))
-            {
-                RadioButton arbaa = (RadioButton) findViewById(R.id.by_nbrOfArbaa);
-                arbaa.setChecked(false);
+            case "add_by_athman_enabled": {
+                NumberPicker numberPicker = (NumberPicker) dialog.getDialog().findViewById(R.id.numberPicker);
+                int i = numberPicker.getValue();
+
+                if (add_quran(DataBaseHelper.NBRATHMAN_M, i, 0)) {
+                    RadioButton nbrOfAthman = (RadioButton) findViewById(R.id.by_nbrOfAthman);
+                    nbrOfAthman.setChecked(false);
+                }
+                break;
+            }
+            case "add_by_arbaa_enabled": {
+                NumberPicker numberPicker = (NumberPicker) dialog.getDialog().findViewById(R.id.numberPicker);
+                int i = numberPicker.getValue();
+
+                if (add_quran(DataBaseHelper.NBRARBAA_M, i, 0)) {
+                    RadioButton arbaa = (RadioButton) findViewById(R.id.by_nbrOfArbaa);
+                    arbaa.setChecked(false);
+                }
+                break;
             }
         }
     }
@@ -393,35 +384,51 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
     public void all_sura(View v)
     {
         My_Dialog m = new My_Dialog();
-        m.setParameter("إضافة كامل السورة", 0);
+        m.setParameter("إضافة كامل السورة", 0, 0, 0);
         m.show(getSupportFragmentManager(), "all_sura");
     }
 
     public void add_by_ayas_enabled(View view)
     {
         My_Dialog m = new My_Dialog();
-        m.setParameter(" إضافة بالأيات", R.layout.dialog_for_add_by_ayat);
+
+        Bundle bundle = getIntent().getExtras();
+        int nbrOfAyat = Integer.parseInt((String) bundle.get(DataBaseHelper.NBROFAYAT));
+
+        m.setParameter(" إضافة بالأيات", R.layout.dialog_for_add_by_ayat, 1, nbrOfAyat);
         m.show(getSupportFragmentManager(), "add_by_aya_enabled");
     }
 
     public void add_by_arbaa_enabled(View view)
     {
         My_Dialog m = new My_Dialog();
-        m.setParameter(" إضافة بالأرباع", R.layout.dialog);
+
+        Bundle bundle = getIntent().getExtras();
+        float arbaa = Float.parseFloat((String) bundle.get(DataBaseHelper.NBRARBAA));
+
+        m.setParameter(" إضافة بالأرباع", R.layout.dialog,(int) arbaa, 0);
         m.show(getSupportFragmentManager(), "add_by_arbaa_enabled");
     }
 
     public void add_by_athman_enabled(View view)
     {
         My_Dialog m = new My_Dialog();
-        m.setParameter(" إضافة بالأثمان", R.layout.dialog);
+
+        Bundle bundle = getIntent().getExtras();
+        float athman = Float.parseFloat((String) bundle.get(DataBaseHelper.NBRATHMAN));
+
+        m.setParameter(" إضافة بالأثمان", R.layout.dialog, (int) athman, 0);
         m.show(getSupportFragmentManager(), "add_by_athman_enabled");
     }
 
     public void add_by_page_enabled(View view)
     {
         My_Dialog m = new My_Dialog();
-        m.setParameter(" إضافة بعدد الصفحات", R.layout.dialog);
+
+        Bundle bundle = getIntent().getExtras();
+        float pages = Float.parseFloat((String) bundle.get(DataBaseHelper.NBROFPAGES));
+
+        m.setParameter(" إضافة بعدد الصفحات", R.layout.dialog, (int) pages, 0);
         m.show(getSupportFragmentManager(), "add_by_page_enabled");
     }
 
@@ -455,6 +462,26 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
 
         Toast.makeText(this, "تمت الإضافة بنجاح", Toast.LENGTH_LONG).show();
         return true;
+    }
+
+    public void add_by_juz(View view)
+    {
+        GridView gridView = (GridView) findViewById(R.id.juz_gridView);
+        int size = gridView.getChildCount();
+
+        int pos;
+        DataBaseHelper myDb = new DataBaseHelper(this);
+
+        for(pos = 0; pos < size; pos++)
+        {
+            TextView textView = (TextView) gridView.getChildAt(pos);
+            if(textView.getTag().equals("select"))
+            {
+                myDb.add_juz(pos+1);
+                Toast.makeText(this, "تمت إضافة الجزء " + (pos+1) , Toast.LENGTH_SHORT).show();
+            }
+        }
+        myDb.close();
     }
 
     public void annuler_btn(View view)

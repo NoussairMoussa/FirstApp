@@ -134,7 +134,7 @@ public class Sura_mahfouda {
             }
             else if(getAyaDeb() != 0)
             {
-                int nbrOfAyat = getAyaFin() - getAyaDeb();
+                int nbrOfAyat = getAyaFin() - getAyaDeb() + 1;
 
                 if(nbrOfAyat == 1)
                     s += " آيـــة ";

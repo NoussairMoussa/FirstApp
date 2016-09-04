@@ -10,8 +10,10 @@
     <NumberPicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/numberPicker"
-        android:background="@color/tranparent">
-    </NumberPicker>
+        android:id="@+id/numberPicker"/>
 
 </LinearLayout>
+
+
+
+
