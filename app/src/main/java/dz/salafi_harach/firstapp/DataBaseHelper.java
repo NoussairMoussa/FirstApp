@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Wael";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 1;
 /*
     "suraNumber INTEGER PRIMARY KEY, " +
             "   pageNum INTEGER, " +
@@ -46,6 +46,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String NBRPAGE_M = "nbrPage_m";
     public static final String DATEOFINSERT = "date_of_insert";
 
+    public static final String DATEOFMURAJAA = "date_of_murajaa";
+    public static final String SURANUM_MURAJAA_TAB = "sura_num";
+
     private Context c;
     public DataBaseHelper(Context context)
     {
@@ -76,6 +79,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "   date_of_insert INTEGER "
                 + " )";
         db.execSQL(rqt);
+
+        String rqt2 = "CREATE TABLE Sura_history "
+                + "( "
+                +  "sura_num INTEGER, " +
+                "   date_of_murajaa INTEGER, " +
+                "   CONSTRAINT suraHistory PRIMARY KEY (sura_num, date_of_murajaa) "
+                + " )";
+        db.execSQL(rqt2);
 
         db.execSQL("INSERT INTO Sura (suraNumber,pageNum,nbrOfPages,nbrArbaa,nbrAthman,juz,numberOfAyat,type,suraName, isMahfoud, ayaDeb, ayaFin, nbrAthman_m, nbrArbaa_m, nbrPage_m, date_of_insert) VALUES (1,1,0,0,0,1,7,0,'الفاتحة',0,0,0,0,0,0,0)");
         db.execSQL("INSERT INTO Sura (suraNumber,pageNum,nbrOfPages,nbrArbaa,nbrAthman,juz,numberOfAyat,type,suraName, isMahfoud, ayaDeb, ayaFin, nbrAthman_m, nbrArbaa_m, nbrPage_m, date_of_insert) VALUES (2,2,48,19.5,39,1,286,1,'البقرة',0,0,0,0,0,0,0)");
@@ -197,6 +208,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         db.execSQL("DROP TABLE IF EXISTS Sura");
+        db.execSQL("DROP TABLE IF EXISTS Sura_history");
         onCreate(db);
     }
 
@@ -204,6 +216,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         db.execSQL("DROP TABLE IF EXISTS Sura");
+        db.execSQL("DROP TABLE IF EXISTS Sura_history");
         onCreate(db);
     }
 
@@ -518,7 +531,54 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return true;
     }
+
+    public boolean add_murajaa(int sura_num)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Date d = new Date();
+        long date = d.getTime();
+
+        ContentValues v = new ContentValues();
+
+        v.put(SURANUM_MURAJAA_TAB, sura_num);
+        v.put(DATEOFMURAJAA, date);
+
+        db.insert("Sura_history", null, v);
+        db.close();
+        return true;
+    }
+
+    public ArrayList get_murajaa_of_sura(int sura_num)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c;
+        ArrayList dates_of_murajaa = new ArrayList();
+
+        c = db.query(
+                "Sura_history",  // The table to query
+                new String[]{DATEOFMURAJAA},                               // The columns to return
+                SURANUM_MURAJAA_TAB + "=?",                                // The columns for the WHERE clause
+                new String[]{String.valueOf(sura_num)},                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                DATEOFMURAJAA + " DESC"                                 // The sort order
+        );
+        c.moveToFirst();
+        if (c.getCount() > 0)
+        {
+            do
+            {
+                dates_of_murajaa.add(c.getString(0));
+            } while (c.moveToNext());
+        }
+        c.close();
+        return dates_of_murajaa;
+    }
 }
+
+
+
 
 
 

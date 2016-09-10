@@ -6,4 +6,9 @@
     <item
         android:title="مسح السورة"
         android:id="@+id/delete_sura"/>
+
+    <item
+        android:title="معلومات "
+        android:id="@+id/info_sura"/>
 </menu>
+

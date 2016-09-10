@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -24,17 +30,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/small_text_for_title"
-        android:layout_below="@id/sura_name"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="@color/colorPrimary"
+        android:layout_gravity="center"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/layout_of_sura_detail"
-        android:layout_below="@+id/sura_name"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:gravity="end">
 
@@ -62,7 +65,6 @@
         android:layout_height="wrap_content"
         android:text="نسبة المتابعة"
         android:id="@+id/poucentage_textView"
-        android:layout_below="@id/layout_of_sura_detail"
         android:layout_marginTop="20dp"
         android:textSize="20sp"
         android:textColor="@color/colorPrimaryDark"/>
@@ -70,8 +72,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/poucentage_textView"
         android:id="@+id/linearLayout">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,22 +105,52 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="0%"
         android:id="@+id/pourcentage"
-        android:layout_below="@+id/linearLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
+        android:layout_gravity="center"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/linearLayoutOfButton"
+    android:layout_marginTop="15dp"
+    android:gravity="center">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="حفظ التغييرات"
+        android:id="@+id/edit_btn"
+        android:onClick="edit_sura"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="تسجيل مراجعة "
+        android:id="@+id/murajaa_btn"
+        android:onClick="murajaa" />
+</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="تواريخ مراجعة السورة "
+        android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="حفــظ"
-        android:id="@+id/edit_btn"
-        android:layout_below="@+id/pourcentage"
-        android:layout_centerHorizontal="true"
-        android:onClick="edit_sura"/>
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginBottom="3dp"/>
 
+    <dz.salafi_harach.firstapp.My_gridView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:isScrollContainer="false"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+        android:id="@+id/murajaa_table_gridView"
+        android:saveEnabled="true"
+        android:textDirection="rtl"
+        android:layoutDirection="rtl"/>
 
-</RelativeLayout>
+</LinearLayout>
+
+</ScrollView>
 
 
 

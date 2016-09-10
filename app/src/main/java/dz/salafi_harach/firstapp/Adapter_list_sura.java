@@ -46,9 +46,20 @@ public class Adapter_list_sura extends ArrayAdapter<String> {
             Date today = new Date();
             long defrence = today.getTime() - listQuran.get(position).getDateOfInsert();
 
-            long dayInTimeUnix = 60*60*24;
+            textView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    Intent edit_quran_intent = new Intent(getContext(), Edit_quran_activity.class);
+                    edit_quran_intent.putExtra("sura_num", listQuran.get(position).getSura().getSuraNum());
+                    getContext().startActivity(edit_quran_intent);
+                }
+            });
 
-            if(defrence < dayInTimeUnix * 2)
+            long dayInTimeUnix = 60*60*24 * 1000;//in milisecondes
+
+            if(defrence < dayInTimeUnix * 2) //two day
             {
                 linearLayout.setBackgroundColor(v.getResources().getColor(R.color.safe));
 
@@ -57,7 +68,7 @@ public class Adapter_list_sura extends ArrayAdapter<String> {
                 soustextView.setText(listQuran.get(position).createRowOfSura());
                 soustextView.setTextColor(v.getResources().getColor(R.color.colorPrimary));
             }
-            else if(defrence < 10*dayInTimeUnix)
+            else if(defrence < 5 * dayInTimeUnix) // ten day
             {
                 linearLayout.setBackgroundColor(v.getResources().getColor(R.color.warning));
 
@@ -75,8 +86,10 @@ public class Adapter_list_sura extends ArrayAdapter<String> {
                 soustextView.setText(listQuran.get(position).createRowOfSura());
                 soustextView.setTextColor(v.getResources().getColor(R.color.colorPrimary));
             }
-            linearLayout.setClickable(true);
+
+
         }
+        /*
         if(listQuran.get(position).getIsMahfoud() == 1)
         {
             v.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +101,8 @@ public class Adapter_list_sura extends ArrayAdapter<String> {
                     getContext().startActivity(edit_quran_intent);
                 }
             });
-        }
+            //v.setClickable(true);
+        }*/
         return v;
     }
 }

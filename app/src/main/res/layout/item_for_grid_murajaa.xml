@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/textViewOfMurajaa_tab"
+        android:paddingTop="4dp"
+        android:paddingBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textAlignment="center"
+        android:background="@drawable/shape_for_tab"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:clickable="false"/>

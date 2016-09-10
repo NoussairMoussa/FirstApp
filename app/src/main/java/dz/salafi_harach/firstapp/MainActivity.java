@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DataBaseHelper myDb;
     private ActionBarDrawerToggle mDrawerToggle;
+    private My_gridView tab_gridView;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -66,8 +66,26 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final ListView contentDB= (ListView) findViewById(R.id.contentBD);
+    }
+
+    @Override
+    protected void onRestart()
+    {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        ListView contentDB= (ListView) findViewById(R.id.contentBD);
         registerForContextMenu(contentDB);
+        returnToAccueil();
+
+        ListView mDrawerList= (ListView) findViewById(R.id.left_drawer);
+        String[] mPlanetTitles = getResources().getStringArray(R.array.array_adapter);
+        mDrawerList.setAdapter(new My_addapter(this,
+                R.layout.row, mPlanetTitles, 0));
     }
 
     @Override
@@ -155,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(position == 0)
         {
-            //الرئيسية
+            returnToAccueil();
             return;
         }
         else if(position == 1)
@@ -172,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
             );
 
             intro.setText("");
+            registerForContextMenu(contentDB);
         }
         else if(position == 2)
         {
@@ -191,13 +210,16 @@ public class MainActivity extends AppCompatActivity {
             );
 
             intro.setText("");
+            tab_gridView.setAdapter(null);
+            registerForContextMenu(contentDB);
         }
         else if(position == 3)
         {
             about();
+            tab_gridView.setAdapter(null);
             return;
         }
-
+/*
         contentDB.setOnScrollListener(new AbsListView.OnScrollListener()
         {
             int mLastFirstVisibleItem = 0;
@@ -225,39 +247,47 @@ public class MainActivity extends AppCompatActivity {
                     mLastFirstVisibleItem = currentFirstVisibleItem;
                 }
             }
-        });
+        });*/
         myDb.close();
     }
 
-    private void about()
-    {
-        TextView intro = (TextView) findViewById(R.id.intro);
-        ListView contentDB= (ListView) findViewById(R.id.contentBD);
-
-        contentDB.setAdapter(null);
-        setTitle(R.string.app_name);
-        intro.setText(R.string.intro_txt);
-    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
     {
         super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.context_menu, menu);
+
+        if (v.getId()==R.id.contentBD)
+        {
+            ListView ls = (ListView) v;
+            Toast.makeText(this, String.valueOf(1), Toast.LENGTH_SHORT).show();
+            menu.setHeaderTitle("ماذا تفعــل");
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.context_menu, menu);
+            return;
+        }
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item)
     {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId())
         {
             case R.id.delete_sura:
                 deleteSura();
+                //item.getActionView();
+                return true;
+            case R.id.info_sura:
+                info_sura();
                 return true;
         }
-        return true;
+        return false;
+    }
+
+    private void info_sura()
+    {
+
+
     }
 
     private void deleteSura()
@@ -271,4 +301,30 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(title);
     }
 
+    private void about()
+    {
+        TextView intro = (TextView) findViewById(R.id.intro);
+        ListView contentDB= (ListView) findViewById(R.id.contentBD);
+
+        contentDB.setAdapter(null);
+        setTitle(R.string.app_name);
+        intro.setText(R.string.intro_txt);
+
+    }
+    private void returnToAccueil()
+    {
+        tab_gridView = (My_gridView) findViewById(R.id.murajaa_table_gridView);
+        tab_gridView.setExpanded(true);
+
+        Adapter_for_grid_view_acceuil adapter_for_grid_view =
+                new Adapter_for_grid_view_acceuil(this);
+        tab_gridView.setAdapter(adapter_for_grid_view);
+
+        TextView intro = (TextView) findViewById(R.id.intro);
+        ListView contentDB= (ListView) findViewById(R.id.contentBD);
+
+        contentDB.setAdapter(null);
+        setTitle(R.string.app_name);
+        intro.setText("");
+    }
 }

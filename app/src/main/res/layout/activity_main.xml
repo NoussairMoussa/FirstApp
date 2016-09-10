@@ -13,6 +13,17 @@
     android:orientation="vertical"
     android:background="@drawable/nice_backround">
 
+    <dz.salafi_harach.firstapp.My_gridView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="false"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+        android:id="@+id/murajaa_table_gridView"
+        android:saveEnabled="true"
+        android:textDirection="rtl"
+        android:layoutDirection="rtl"/>
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

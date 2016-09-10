@@ -19,9 +19,7 @@
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
         android:id="@+id/juz_gridView"
-        android:saveEnabled="true"
-        android:textDirection="rtl"
-        android:layoutDirection="rtl"/>
+        android:saveEnabled="true"/>
 
     <Button
         android:layout_width="wrap_content"

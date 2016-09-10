@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Quran app</string>
+    <string name="app_name">رفيق الحفظ </string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
     <string name="empty_db">المحتوى فارغ</string>

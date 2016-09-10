@@ -182,28 +182,41 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
                     {
                         DataBaseHelper myDb = new DataBaseHelper(rootView.getContext());
                         nbrOfAyat = myDb.getNumberOfAya(position + 1);
-                        nbrOfArbaa = myDb.getElement(position +1, DataBaseHelper.NBRARBAA);
 
+                        nbrOfArbaa = myDb.getElement(position +1, DataBaseHelper.NBRARBAA);
                         if(Float.parseFloat(nbrOfArbaa) != 0)
                         {
                             rootView.findViewById(R.id.by_nbrOfArbaa).setEnabled(true);
                             rootView.findViewById(R.id.by_nbrOfArbaa).setClickable(true);
                         }
+                        else
+                        {
+                            rootView.findViewById(R.id.by_nbrOfArbaa).setEnabled(false);
+                            rootView.findViewById(R.id.by_nbrOfArbaa).setClickable(false);
+                        }
 
                         nbrOfAthman = myDb.getElement(position +1, DataBaseHelper.NBRATHMAN);
-
                         if(Float.parseFloat(nbrOfAthman) != 0)
                         {
                             rootView.findViewById(R.id.by_nbrOfAthman).setEnabled(true);
                             rootView.findViewById(R.id.by_nbrOfAthman).setClickable(true);
                         }
+                        else
+                        {
+                            rootView.findViewById(R.id.by_nbrOfAthman).setEnabled(false);
+                            rootView.findViewById(R.id.by_nbrOfAthman).setClickable(false);
+                        }
 
                         nbrOfPages = myDb.getElement(position +1, DataBaseHelper.NBROFPAGES);
-
                         if(Float.parseFloat(nbrOfPages) != 0)
                         {
                             rootView.findViewById(R.id.by_nbrOfPages).setEnabled(true);
                             rootView.findViewById(R.id.by_nbrOfPages).setClickable(true);
+                        }
+                        else
+                        {
+                            rootView.findViewById(R.id.by_nbrOfPages).setEnabled(false);
+                            rootView.findViewById(R.id.by_nbrOfPages).setClickable(false);
                         }
 
                         Bundle bundle = new Bundle();
@@ -260,13 +273,13 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
                         {
                             view.setBackground(rootView.getResources().getDrawable(R.drawable.shape2));
                             view.setTag("none");
-                            Toast.makeText(rootView.getContext(), "if", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(rootView.getContext(), "if", Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
                             view.setBackground(rootView.getResources().getDrawable(R.drawable.shape));
                             view.setTag("select");
-                            Toast.makeText(rootView.getContext(), "else", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(rootView.getContext(), "else", Toast.LENGTH_SHORT).show();
                         }
 /*
                         view.setBackground(rootView.getResources().getDrawable(R.drawable.shape));
@@ -478,10 +491,12 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
             if(textView.getTag().equals("select"))
             {
                 myDb.add_juz(pos+1);
-                Toast.makeText(this, "تمت إضافة الجزء " + (pos+1) , Toast.LENGTH_SHORT).show();
+
             }
         }
+        Toast.makeText(this, "تمت الأضافة " , Toast.LENGTH_SHORT).show();
         myDb.close();
+        finish();
     }
 
     public void annuler_btn(View view)
