@@ -7,4 +7,20 @@
           <item name="colorPrimary">@color/colorPrimary</item>
     </style>
 
-       </resources>
+    <style name="MyTextViewStyle" parent="@android:style/TextAppearance">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="date_style" parent="@android:style/TextAppearance">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:layout_gravity">right</item>
+    </style>
+
+</resources>
+
+
+
+

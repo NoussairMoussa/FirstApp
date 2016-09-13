@@ -12,23 +12,7 @@ import java.util.Date;
 public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Wael";
     public static final int DATABASE_VERSION = 1;
-/*
-    "suraNumber INTEGER PRIMARY KEY, " +
-            "   pageNum INTEGER, " +
-            "   nbrOfPages INTEGER, " +
-            "   nbrArbaa REAL, " +
-            "   nbrAthman REAL, " +
-            "   juz INTEGER, " +
-            "   numberOfAyat INTEGER, " +
-            "   type INTEGER, " +
-            "   suraName TEXT, " +
-            "   isMahfoud INTEGER, " +
-            "   ayaDeb INTEGER, " +
-            "   ayaFin INTEGER, " +
-            "   nbrAthman_m REAL, " +
-            "   nbrArbaa_m REAL, " +
-            "   nbrPage_m REAL "
-    */
+
     public static final String SURANUMBER = "suraNumber";
     public static final String PAGENUM = "pageNum";
     public static final String NBROFPAGES = "nbrOfPages";
@@ -545,6 +529,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         v.put(DATEOFMURAJAA, date);
 
         db.insert("Sura_history", null, v);
+        v.clear();
+
+        v.put(DATEOFINSERT, date);
+        db.update("Sura", v, SURANUMBER + "=?", new String[]{String.valueOf(sura_num)});
+
         db.close();
         return true;
     }
@@ -575,7 +564,38 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         c.close();
         return dates_of_murajaa;
     }
+
+    public ArrayList<Sura_mahfouda> getLastMurajaa(int limit)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c;
+
+        c = db.query(
+                "Sura_history",  // The table to query
+                null,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                DATEOFMURAJAA + " DESC",                // The sort order
+                String.valueOf(limit)                   //Limit
+        );
+
+        c.moveToFirst();
+        ArrayList<Sura_mahfouda> listQuran = new ArrayList<>();
+        if (c.getCount() > 0)
+        {
+            do
+            {
+                int suraNum = Integer.parseInt(c.getString(0));
+                listQuran.add(getSura(suraNum));
+            } while (c.moveToNext());
+        }
+        c.close();
+        return listQuran;
+    }
 }
+
 
 
 

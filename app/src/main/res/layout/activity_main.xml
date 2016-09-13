@@ -13,16 +13,22 @@
     android:orientation="vertical"
     android:background="@drawable/nice_backround">
 
-    <dz.salafi_harach.firstapp.My_gridView
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/intro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:isScrollContainer="false"
-        android:numColumns="2"
-        android:stretchMode="columnWidth"
-        android:id="@+id/murajaa_table_gridView"
-        android:saveEnabled="true"
-        android:textDirection="rtl"
-        android:layoutDirection="rtl"/>
+        android:gravity="center"
+        android:typeface="serif"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/actualite_layout">
+    </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
@@ -34,16 +40,6 @@
         android:layout_marginBottom="5dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp"/>
-
-    <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/intro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:typeface="serif"
-        android:layout_margin="10dp"
-        android:padding="10dp"/>
 
 </LinearLayout>
 

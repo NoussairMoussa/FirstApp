@@ -2,27 +2,36 @@ package dz.salafi_harach.firstapp;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.support.annotation.Dimension;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.ContextMenu;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
     private DataBaseHelper myDb;
     private ActionBarDrawerToggle mDrawerToggle;
-    private My_gridView tab_gridView;
+    private LinearLayout accueil;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -189,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     new Adapter_list_sura(this, R.layout.row_of_quran_list, listQuranForAdapter, listQuran)
             );
 
+            accueil.removeAllViews();
             intro.setText("");
             registerForContextMenu(contentDB);
         }
@@ -210,13 +220,15 @@ public class MainActivity extends AppCompatActivity {
             );
 
             intro.setText("");
-            tab_gridView.setAdapter(null);
+            accueil.removeAllViews();
+
             registerForContextMenu(contentDB);
         }
         else if(position == 3)
         {
             about();
-            tab_gridView.setAdapter(null);
+            accueil.removeAllViews();
+            //accueil.setAdapter(null);
             return;
         }
 /*
@@ -313,18 +325,75 @@ public class MainActivity extends AppCompatActivity {
     }
     private void returnToAccueil()
     {
-        tab_gridView = (My_gridView) findViewById(R.id.murajaa_table_gridView);
-        tab_gridView.setExpanded(true);
+        accueil = (LinearLayout) findViewById(R.id.actualite_layout);
+        accueil.removeAllViews();
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
-        Adapter_for_grid_view_acceuil adapter_for_grid_view =
-                new Adapter_for_grid_view_acceuil(this);
-        tab_gridView.setAdapter(adapter_for_grid_view);
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        int hight = (int) (size.y / displayMetrics.density);
+        //Toast.makeText(this, String.valueOf(hight/100+1), Toast.LENGTH_LONG).show();
+
+        myDb = new DataBaseHelper(this);
+        ArrayList<Sura_mahfouda> lastMurajaa = myDb.getLastMurajaa(hight/100+1);
+        Sura_mahfouda sura_mahfouda;
+
+        for(int i = 0; i<lastMurajaa.size(); i++)
+        {
+            sura_mahfouda = lastMurajaa.get(i);
+
+            LinearLayout row_of_accueil = new LinearLayout(this);
+            row_of_accueil.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
+            row_of_accueil.setOrientation(LinearLayout.VERTICAL);
+            row_of_accueil.setPadding(10, 30, 10, 20);
+            row_of_accueil.setGravity(Gravity.CENTER);
+
+            LinearLayout sub_row_of_accueil = new LinearLayout(this);
+            sub_row_of_accueil.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
+            sub_row_of_accueil.setOrientation(LinearLayout.HORIZONTAL);
+            sub_row_of_accueil.setGravity(Gravity.RIGHT);
+
+            TextView date = new TextView(this);
+            date.setTextAppearance(this, R.style.date_style);
+            Locale locale = new Locale("ara", "DZ");
+            SimpleDateFormat ft = new SimpleDateFormat("E  dd/MMM/y  HH:mm", locale);
+            date.setText(ft.format(sura_mahfouda.getDateOfInsert()));
+            sub_row_of_accueil.addView(date);
+
+            TextView sura_name_textView = new TextView(this);
+            sura_name_textView.setTextAppearance(this, R.style.MyTextViewStyle);
+            sura_name_textView.setText("ســــورة " + sura_mahfouda.getSura().getName());
+            sura_name_textView.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
+            sura_name_textView.setGravity(Gravity.CENTER);
+
+            row_of_accueil.addView(sub_row_of_accueil);
+            row_of_accueil.addView(sura_name_textView);
+
+            TextView line = new TextView(this);
+            line.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+            line.setHeight(2);
+            line.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            row_of_accueil.addView(line);
+
+            accueil.addView(row_of_accueil);
+        }
 
         TextView intro = (TextView) findViewById(R.id.intro);
         ListView contentDB= (ListView) findViewById(R.id.contentBD);
 
         contentDB.setAdapter(null);
         setTitle(R.string.app_name);
-        intro.setText("");
+        intro.setText("آخر ما تم مراجعتـــه");
+        myDb.close();
     }
 }
+
+
+
+

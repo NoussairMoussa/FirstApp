@@ -12,8 +12,8 @@ import android.widget.TwoLineListItem;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Adapter_list_sura extends ArrayAdapter<String> {
-
+public class Adapter_list_sura extends ArrayAdapter<String>
+{
     private ArrayList<Sura_mahfouda> listQuran;
 
     public Adapter_list_sura(Context context, int r, ArrayList<String> s, ArrayList<Sura_mahfouda> listOfSuraMahfouda)

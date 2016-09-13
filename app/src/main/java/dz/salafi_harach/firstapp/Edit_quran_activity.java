@@ -104,6 +104,7 @@ public class Edit_quran_activity extends AppCompatActivity {
         ArrayList datesOfMurajaa = myDb.get_murajaa_of_sura(sura_num);
         final My_gridView tab_gridView = (My_gridView) findViewById(R.id.murajaa_table_gridView);
         tab_gridView.setExpanded(true);
+
         Adapter_for_grid_view_murajaa_tab adapter_for_grid_view =
                 new Adapter_for_grid_view_murajaa_tab(this, datesOfMurajaa, " ســورة " + String.valueOf(suraMahfouda.getSura().getName()));
         tab_gridView.setAdapter(adapter_for_grid_view);

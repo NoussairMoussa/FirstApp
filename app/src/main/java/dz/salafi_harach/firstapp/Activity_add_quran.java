@@ -259,7 +259,9 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
             }
             else
             {
-                final GridView juz_gridView = (GridView) rootView.findViewById(R.id.juz_gridView);
+                final My_gridView juz_gridView = (My_gridView) rootView.findViewById(R.id.juz_gridView);
+                juz_gridView.setExpanded(true);
+
                 Adapter_for_grid_view adapter_for_grid_view = new Adapter_for_grid_view(rootView.getContext());
                 juz_gridView.setAdapter(adapter_for_grid_view);
                 juz_gridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -479,7 +481,8 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
 
     public void add_by_juz(View view)
     {
-        GridView gridView = (GridView) findViewById(R.id.juz_gridView);
+        My_gridView gridView = (My_gridView) findViewById(R.id.juz_gridView);
+
         int size = gridView.getChildCount();
 
         int pos;
