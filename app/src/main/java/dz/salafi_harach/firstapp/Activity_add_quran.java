@@ -230,28 +230,6 @@ public class Activity_add_quran extends AppCompatActivity implements My_Dialog.M
                         getActivity().setIntent(i);
 
                         myDb.close();
-                        SeekBar seekBar = (SeekBar) rootView.findViewById(R.id.seek_bar);
-                        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
-                        {
-                            @Override
-                            public void onProgressChanged(SeekBar seekBar, int i, boolean b)
-                            {
-                                TextView poucentage = (TextView) rootView.findViewById(R.id.pourcentage_of_actvt_add);
-                                poucentage.setText(String.valueOf(i)+"%");
-                            }
-
-                            @Override
-                            public void onStartTrackingTouch(SeekBar seekBar)
-                            {
-
-                            }
-
-                            @Override
-                            public void onStopTrackingTouch(SeekBar seekBar)
-                            {
-
-                            }
-                        });
                     }
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView){}

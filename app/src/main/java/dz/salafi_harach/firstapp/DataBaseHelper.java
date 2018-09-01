@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
@@ -492,6 +493,40 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return sura_mahfouda_to_return;
     }
 
+    public Sura getSuraB(int sura_num)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor c;
+
+        c = db.query(
+                "Sura",  // The table to query
+                null,                               // The columns to return
+                SURANUMBER + "=?",                                // The columns for the WHERE clause
+                new String[]{String.valueOf(sura_num)},                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+        c.moveToFirst();
+        Sura s = null;
+
+        if (c.getCount() > 0)
+        {
+                s = new Sura(Integer.parseInt(c.getString(c.getColumnIndex(SURANUMBER))),
+                        c.getString(c.getColumnIndex(SURANAME)),
+                        Integer.parseInt(c.getString(c.getColumnIndex(NBROFAYAT))),
+                        Double.parseDouble(c.getString(c.getColumnIndex(NBRARBAA))),
+                        Double.parseDouble(c.getString(c.getColumnIndex(NBRATHMAN))),
+                        Double.parseDouble(c.getString(c.getColumnIndex(NBROFPAGES))),
+                        Integer.parseInt(c.getString(c.getColumnIndex(PAGENUM))),
+                        Integer.parseInt(c.getString(c.getColumnIndex(JUZ))),
+                        Boolean.parseBoolean((c.getString(c.getColumnIndex(TYPE)))) ? type.MADANIYA: type.MAKIYAH);
+        }
+        c.close();
+        return s;
+    }
+
     public boolean edit_sura(int sura_num, String elm, int val)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -516,12 +551,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean add_murajaa(int sura_num)
+    public boolean add_murajaa(int sura_num, int year, int month, int day)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        Date d = new Date();
-        long date = d.getTime();
+        Calendar c = Calendar.getInstance();
+        c.set(year, month, day);
+        long date = c.getTimeInMillis();
 
         ContentValues v = new ContentValues();
 
@@ -565,7 +600,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return dates_of_murajaa;
     }
 
-    public ArrayList<Sura_mahfouda> getLastMurajaa(int limit)
+    public ArrayList<Sura_mahfouda> getLastMurajaa(String sort)
     {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c;
@@ -577,8 +612,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 null,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                DATEOFMURAJAA + " DESC",                // The sort order
-                String.valueOf(limit)                   //Limit
+                DATEOFMURAJAA + " " + sort,                // The sort order
+                null                   //Limit
         );
 
         c.moveToFirst();
@@ -588,9 +623,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             do
             {
                 int suraNum = Integer.parseInt(c.getString(0));
-                listQuran.add(getSura(suraNum));
+                Sura_mahfouda s_m = new Sura_mahfouda(getSuraB(suraNum),
+                        1,
+                        Integer.parseInt(getElement(suraNum,AYADEB)),
+                        Integer.parseInt(getElement(suraNum,AYAFIN)),
+                        Double.parseDouble(getElement(suraNum,NBRATHMAN_M)),
+                        Double.parseDouble(getElement(suraNum,NBRARBAA_M)),
+                        Integer.parseInt(getElement(suraNum,NBRPAGE_M)),
+                        Long.parseLong(c.getString(1)));
+                listQuran.add(s_m);
             } while (c.moveToNext());
         }
+
         c.close();
         return listQuran;
     }

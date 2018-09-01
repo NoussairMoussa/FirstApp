@@ -1,10 +1,14 @@
 package dz.salafi_harach.firstapp;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -26,7 +30,7 @@ public class Edit_quran_activity extends AppCompatActivity {
 
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("تعديــــل");
+        actionBar.setTitle("تعديلات ");
 
         sura_num = (int) getIntent().getExtras().get("sura_num");
 
@@ -78,28 +82,6 @@ public class Edit_quran_activity extends AppCompatActivity {
             TextView smallText = (TextView) findViewById(R.id.small_text_for_title);
             smallText.setText("كاملة");
         }
-        SeekBar seekBar = (SeekBar) findViewById(R.id.seek_bar_of_edit);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
-        {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b)
-            {
-                TextView poucentage = (TextView) findViewById(R.id.pourcentage);
-                poucentage.setText(String.valueOf(i)+"%");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar)
-            {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar)
-            {
-
-            }
-        });
 
         ArrayList datesOfMurajaa = myDb.get_murajaa_of_sura(sura_num);
         final My_gridView tab_gridView = (My_gridView) findViewById(R.id.murajaa_table_gridView);
@@ -139,14 +121,31 @@ public class Edit_quran_activity extends AppCompatActivity {
         finish();
     }
 
+
     public void murajaa(View view)
     {
-        DataBaseHelper myDb = new DataBaseHelper(this);
-        myDb.add_murajaa(sura_num);
-        myDb.close();
-        finish();
+        DialogFragment dateDialog = new DatePickerFragment();
+        Bundle args = new Bundle();
+        args.putInt("sura_num", sura_num);
+        dateDialog.setArguments(args);
+        dateDialog.show(getSupportFragmentManager(), "dateDialog");
+    }
+
+    //static classes
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, 2019, 12, 4);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+
+            DataBaseHelper myDb = new DataBaseHelper(getContext());
+            myDb.add_murajaa(getArguments().getInt("sura_num") , year, month, day);
+            myDb.close();
+        }
     }
 }
-
-
-

@@ -15,7 +15,7 @@
 
 
     </string>
-    <string name="setting_btn">تعديـــل</string>
+    <string name="setting_btn">تعديلات </string>
     <string name="nbrArbaa_textView">عدد الأربـــاع</string>
     <string name="title_activity_activity_add_quran">أضف قرآن</string>
     <string name="action_settings">Settings</string>
@@ -23,4 +23,5 @@
     <string name="title_activity_edit_quran_activity">Edit_quran_activity</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="explication_text">نسبة المتابعة هي النسبة التي سيتم فيها تنبيهك بالسورة عند تأخر مراجعتهــا</string>
+    <string name="order_btn">ترتيب</string>
 </resources>

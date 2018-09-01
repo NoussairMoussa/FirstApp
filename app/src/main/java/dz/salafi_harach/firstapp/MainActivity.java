@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -26,12 +27,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     private DataBaseHelper myDb;
     private ActionBarDrawerToggle mDrawerToggle;
     private LinearLayout accueil;
+    private String sort;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
          String[] mPlanetTitles = getResources().getStringArray(R.array.array_adapter);
          DrawerLayout mDrawerLayout  = (DrawerLayout) findViewById(R.id.drawer_layout);
          ListView mDrawerList= (ListView) findViewById(R.id.left_drawer);
-
+        sort = "DESC";
         // Set the adapter for the list view
         mDrawerList.setAdapter(new My_addapter(this,
                 R.layout.row, mPlanetTitles, 0));
@@ -89,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         ListView contentDB= (ListView) findViewById(R.id.contentBD);
         registerForContextMenu(contentDB);
-        returnToAccueil();
+        returnToAccueil(sort);
 
         ListView mDrawerList= (ListView) findViewById(R.id.left_drawer);
         String[] mPlanetTitles = getResources().getStringArray(R.array.array_adapter);
@@ -133,6 +136,10 @@ public class MainActivity extends AppCompatActivity {
             Intent add_quran_activity = new Intent(this, Activity_add_quran.class);
             startActivity(add_quran_activity);
             return true;
+        }
+        else if(item.getItemId() == R.id.sort)
+        {
+            returnToAccueil(sort);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -182,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(position == 0)
         {
-            returnToAccueil();
+            returnToAccueil(sort);
             return;
         }
         else if(position == 1)
@@ -231,35 +238,7 @@ public class MainActivity extends AppCompatActivity {
             //accueil.setAdapter(null);
             return;
         }
-/*
-        contentDB.setOnScrollListener(new AbsListView.OnScrollListener()
-        {
-            int mLastFirstVisibleItem = 0;
 
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i)
-            {
-                //Toast.makeText(getBaseContext(),"ana houna", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int i, int i1, int i2)
-            {
-                if (view.getId() == contentDB.getId()) {
-                    final int currentFirstVisibleItem = contentDB.getFirstVisiblePosition();
-
-                    if (currentFirstVisibleItem > mLastFirstVisibleItem) {
-                        // getSherlockActivity().getSupportActionBar().hide();
-                        getSupportActionBar().hide();
-                    } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
-                        // getSherlockActivity().getSupportActionBar().show();
-                        getSupportActionBar().show();
-                    }
-
-                    mLastFirstVisibleItem = currentFirstVisibleItem;
-                }
-            }
-        });*/
         myDb.close();
     }
 
@@ -323,8 +302,12 @@ public class MainActivity extends AppCompatActivity {
         intro.setText(R.string.intro_txt);
 
     }
-    private void returnToAccueil()
+    private void returnToAccueil(String sort)
     {
+        if(sort.compareTo("ASC")==0)
+            this.sort = "DESC";
+        else
+            this.sort = "ASC";
         accueil = (LinearLayout) findViewById(R.id.actualite_layout);
         accueil.removeAllViews();
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -337,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
         //Toast.makeText(this, String.valueOf(hight/100+1), Toast.LENGTH_LONG).show();
 
         myDb = new DataBaseHelper(this);
-        ArrayList<Sura_mahfouda> lastMurajaa = myDb.getLastMurajaa(hight/100+1);
+        ArrayList<Sura_mahfouda> lastMurajaa = myDb.getLastMurajaa(sort);
         Sura_mahfouda sura_mahfouda;
 
         for(int i = 0; i<lastMurajaa.size(); i++)
@@ -349,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
             row_of_accueil.setOrientation(LinearLayout.VERTICAL);
-            row_of_accueil.setPadding(10, 30, 10, 20);
+            row_of_accueil.setPadding(10, 40, 10, 20);
             row_of_accueil.setGravity(Gravity.CENTER);
 
             LinearLayout sub_row_of_accueil = new LinearLayout(this);
@@ -362,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
             TextView date = new TextView(this);
             date.setTextAppearance(this, R.style.date_style);
             Locale locale = new Locale("ara", "DZ");
-            SimpleDateFormat ft = new SimpleDateFormat("E  dd/MMM/y  HH:mm", locale);
+            SimpleDateFormat ft = new SimpleDateFormat("E  dd/MMM/y ", locale);
             date.setText(ft.format(sura_mahfouda.getDateOfInsert()));
             sub_row_of_accueil.addView(date);
 
@@ -377,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
 
             TextView line = new TextView(this);
             line.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
-            line.setHeight(2);
+            line.setHeight(5);
             line.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             row_of_accueil.addView(line);
 
@@ -389,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
 
         contentDB.setAdapter(null);
         setTitle(R.string.app_name);
-        intro.setText("آخر ما تم مراجعتـــه");
+        intro.setText("المراجعــات");
         myDb.close();
     }
 }
